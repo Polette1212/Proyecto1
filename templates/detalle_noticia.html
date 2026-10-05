@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ noticia.titulo }} | Space Gamer Turbo
+{% endblock %}
+
+{% block content %}
+
+<section class="detalle-noticia">
+
+    <div class="detalle-noticia-contenedor">
+
+        <div class="detalle-noticia-imagen">
+
+            <img src="{% static 'img_juegos/' %}{{ noticia.imagen }}"
+                 alt="{{ noticia.titulo }}">
+
+        </div>
+
+        <div class="detalle-noticia-contenido">
+
+            <span class="categoria">
+                {{ noticia.categoria }}
+            </span>
+
+            <h1>
+                {{ noticia.titulo }}
+            </h1>
+
+            <p class="detalle-noticia-descripcion">
+                {{ noticia.descripcion }}
+            </p>
+
+            <div class="noticia-texto">
+
+                <h2>📰 Detalle de la noticia</h2>
+
+                <p>
+                    {{ noticia.descripcion }}
+                </p>
+
+                <p>
+                    Metal Gear Solid 3 es uno de los mejores videojuegos de la historia, toda una obra maestra de Hideo Kojima que elevó a la excelencia a la magistral saga de Konami. Un título lanzado originalmente en el año 2004, y que 20 años después continúa sorprendiendo por todo lo que ponía sobre la mesa, y algunas mecánicas tan curiosas como increíbles, que solo podían salir de la mente de Kojima.
+
+Si en el primer Metal Gear Solid nos voló la cabeza el combate contra Psycho Mantis, en esta tercera entrega el encargado de sorprendernos era The End. Un anciano francotirador de más de 100 años de edad que nos lleva hasta el extremo en la que es una de las batallas más complicadas y desquiciantes del juego, pero había una forma de superarla que en su día cogió a muchos por sorpresa.
+                </p>
+
+            </div>
+
+            <a href="{% url 'presentacion' %}" class="boton-volver">
+                ⬅️ VOLVER AL INICIO
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio | Space Gamer Turbo{% endblock %}
+
+{% block content %}
+
+<section class="bienvenida">
+
+    <div class="bienvenida-imagen">
+        <img src="{% static 'img_juegos/imagen_ninja2.jpg' %}"
+             alt="Bienvenidos a Gamer Turbo!">
+    </div>
+
+    <div class="bienvenida-contenido">
+
+        <h1>🎮 BIENVENIDOS A GAMER TURBO 🎮</h1>
+
+        <p class="subtitulo">
+            🔥 Tu portal gamer de videojuegos 🔥
+        </p>
+
+        <p>
+            Descubre videojuegos modernos, clásicos inolvidables,
+            personajes legendarios y mucho más.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- NOTICIAS -->
+
+<section class="noticias">
+
+    <h2>📰 ÚLTIMAS NOTICIAS</h2>
+
+    <div class="noticias-contenedor">
+
+        {% for noticia in noticias %}
+
+        <article class="noticia">
+
+            <img src="{% static 'img_juegos/' %}{{ noticia.imagen }}"
+                 alt="{{ noticia.titulo }}">
+
+            <div class="noticia-contenido">
+
+                <span class="categoria">
+                    {{ noticia.categoria }}
+                </span>
+
+                <h3>
+                    {{ noticia.titulo }}
+                </h3>
+
+                <p>
+                    {{ noticia.descripcion }}
+                </p>
+
+                <a href="{% url 'detalle_noticia' noticia.id %}"
+                   class="boton-noticia">
+                    LEER NOTICIA
+                </a>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

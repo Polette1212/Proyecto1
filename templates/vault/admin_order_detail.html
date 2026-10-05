@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block title %}
+Detalle de compra #{{ order.id }} | GameVault
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // DETALLE DE COMPRA
+        </p>
+
+        <h1>
+            Compra #{{ order.id }}
+        </h1>
+
+        <p>
+            Revisión completa de la transacción realizada.
+        </p>
+
+    </div>
+
+    <div
+        style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        "
+    >
+
+        <a
+            href="{% url 'admin_orders' %}"
+            class="btn outline-btn"
+        >
+            ← Volver al historial
+        </a>
+
+        <a
+            href="{% url 'order_receipt_pdf' order.id %}"
+            class="btn neon-btn"
+            style="
+                color:#ffffff !important;
+                text-shadow:0 0 8px rgba(255,255,255,.9);
+            "
+        >
+            📄 Comprobante
+        </a>
+
+        {% if request.user.is_superuser %}
+
+            <a
+                href="{% url 'admin_order_delete' order.id %}"
+                class="btn danger-btn"
+            >
+                🗑 Eliminar pedido
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<section
+    style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+        gap:20px;
+        margin-bottom:25px;
+    "
+>
+
+
+    <!-- INFORMACIÓN DEL CLIENTE -->
+
+    <div class="vault-card">
+
+        <p class="eyebrow">
+            CLIENTE
+        </p>
+
+        <h2>
+            Información del cliente
+        </h2>
+
+        <p>
+            <strong>Nombre:</strong>
+            {{ order.customer_name }}
+        </p>
+
+        <p>
+            <strong>RUT:</strong>
+            {{ order.customer_rut }}
+        </p>
+
+        <p>
+            <strong>Correo:</strong>
+            {{ order.customer_email }}
+        </p>
+
+        <p>
+            <strong>Teléfono:</strong>
+            {{ order.customer_phone }}
+        </p>
+
+        <p>
+            <strong>Dirección:</strong>
+            {{ order.shipping_address }}
+        </p>
+
+        <p>
+            <strong>Tipo de cliente:</strong>
+
+            {% if order.customer_type == "visitante" %}
+                Visitante
+            {% else %}
+                Cliente registrado
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+    <!-- INFORMACIÓN DE LA COMPRA -->
+
+    <div class="vault-card">
+
+        <p class="eyebrow">
+            TRANSACCIÓN
+        </p>
+
+        <h2>
+            Información de compra
+        </h2>
+
+        <p>
+            <strong>Número de pedido:</strong>
+            #{{ order.id }}
+        </p>
+
+        <p>
+            <strong>Fecha:</strong>
+            {{ order.created_at|date:"d/m/Y H:i" }}
+        </p>
+
+        <p>
+            <strong>Método de pago:</strong>
+
+            {% if order.payment_method == "tarjeta" %}
+                Tarjeta de crédito o débito
+            {% elif order.payment_method == "webpay" %}
+                Webpay
+            {% else %}
+                {{ order.payment_method }}
+            {% endif %}
+
+        </p>
+
+        <p>
+            <strong>Estado:</strong>
+
+            {% if order.status == "pagada" %}
+                Pagada
+            {% elif order.status == "cancelada" %}
+                Cancelada
+            {% else %}
+                Pendiente
+            {% endif %}
+
+        </p>
+
+        <p>
+            <strong>Subtotal:</strong>
+            ${{ order.subtotal|floatformat:0 }}
+        </p>
+
+        <p>
+            <strong>Descuento:</strong>
+            ${{ order.discount|floatformat:0 }}
+        </p>
+
+        <p>
+            <strong>Total:</strong>
+
+            <span
+                style="
+                    font-size:1.3rem;
+                    font-weight:bold;
+                "
+            >
+                ${{ order.total|floatformat:0 }}
+            </span>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCTOS -->
+
+<section class="vault-card">
+
+    <p class="eyebrow">
+        DETALLE
+    </p>
+
+    <h2>
+        Productos comprados
+    </h2>
+
+
+    {% if order.items.all %}
+
+        <div style="overflow-x:auto;">
+
+            <table class="vault-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Videojuego
+                        </th>
+
+                        <th>
+                            Cantidad
+                        </th>
+
+                        <th>
+                            Precio unitario
+                        </th>
+
+                        <th>
+                            Subtotal
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in order.items.all %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ item.game.title }}
+                                </strong>
+
+                            </td>
+
+                            <td>
+                                {{ item.quantity }}
+                            </td>
+
+                            <td>
+                                ${{ item.unit_price|floatformat:0 }}
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    ${{ item.subtotal|floatformat:0 }}
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td colspan="4">
+
+                                No existen productos asociados
+                                a este pedido.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- ACCIONES -->
+
+<section
+    style="
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top:25px;
+    "
+>
+
+    <a
+        href="{% url 'admin_orders' %}"
+        class="btn outline-btn"
+    >
+        ← Volver al historial
+    </a>
+
+
+    <div
+        style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        "
+    >
+
+        <a
+            href="{% url 'order_receipt_pdf' order.id %}"
+            class="btn neon-btn"
+            style="
+                color:#ffffff !important;
+                text-shadow:0 0 8px rgba(255,255,255,.9);
+            "
+        >
+            📄 Descargar comprobante
+        </a>
+
+
+        {% if request.user.is_superuser %}
+
+            <a
+                href="{% url 'admin_order_delete' order.id %}"
+                class="btn danger-btn"
+            >
+                🗑 Eliminar pedido
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

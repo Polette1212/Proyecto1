@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if record %}
+        Editar | GameVault
+    {% else %}
+        Nuevo registro | GameVault
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<section class="login-shell">
+
+    <div class="vault-card login-card form-wrap">
+
+        <!-- =================================================
+             CABECERA
+             ================================================= -->
+
+        <div class="eyebrow">
+
+            GAMEVAULT // DATABASE TERMINAL
+
+        </div>
+
+
+        <h1>
+
+            {% if record %}
+
+                EDITAR
+
+            {% else %}
+
+                NUEVO
+
+            {% endif %}
+
+            <span>
+                {{ config.title }}
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            {% if record %}
+
+                Modifica la información almacenada en el sistema.
+
+            {% else %}
+
+                Ingresa los datos para registrar un nuevo elemento
+                en la base de datos de GameVault.
+
+            {% endif %}
+
+        </p>
+
+
+        <!-- =================================================
+             INDICADOR DE SISTEMA
+             ================================================= -->
+
+        <div class="vault-form-status">
+
+            <span class="status-dot"></span>
+
+            <strong>SISTEMA ACTIVO</strong>
+
+            <span>DATABASE ONLINE</span>
+
+        </div>
+
+
+        <!-- =================================================
+             FORMULARIO
+             multipart/form-data es necesario para:
+             ImageField y FileField
+             ================================================= -->
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =============================================
+                 ERRORES GENERALES
+                 ============================================= -->
+
+            {% if form.non_field_errors %}
+
+                <div class="alert alert-danger">
+
+                    {% for error in form.non_field_errors %}
+
+                        <div>
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =============================================
+                 CAMPOS
+                 ============================================= -->
+
+            {% for field in form %}
+
+                <div class="vault-field">
+
+                    <label
+                        for="{{ field.id_for_label }}"
+                    >
+
+                        {{ field.label }}
+
+                        {% if field.field.required %}
+
+                            <span class="text-danger">
+                                *
+                            </span>
+
+                        {% endif %}
+
+                    </label>
+
+
+                    <!-- =====================================
+                         CAMPO DEL FORMULARIO
+                         ===================================== -->
+
+                    {{ field }}
+
+
+                    <!-- =====================================
+                         AYUDA DEL CAMPO
+                         ===================================== -->
+
+                    {% if field.help_text %}
+
+                        <div class="form-text">
+
+                            {{ field.help_text }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- =====================================
+                         ERRORES
+                         ===================================== -->
+
+                    {% for error in field.errors %}
+
+                        <div class="text-danger mt-1">
+
+                            {{ error }}
+
+                        </div>
+
+                    {% endfor %}
+
+
+                    <!-- =====================================
+                         PORTADA ACTUAL
+                         ===================================== -->
+
+                    {% if field.name == "cover" and record %}
+
+                        {% if record.cover %}
+
+                            <div class="mt-3">
+
+                                <p class="form-text">
+                                    Portada actual:
+                                </p>
+
+                                <img
+                                    src="{{ record.cover.url }}"
+                                    alt="Portada de {{ record.title }}"
+                                    style="
+                                        width: 150px;
+                                        max-height: 210px;
+                                        object-fit: cover;
+                                        border-radius: 10px;
+                                        border: 1px solid rgba(0, 255, 255, 0.35);
+                                        box-shadow: 0 0 15px rgba(0, 255, 255, 0.12);
+                                    "
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+
+                    <!-- =====================================
+                         FICHA TÉCNICA ACTUAL
+                         ===================================== -->
+
+                    {% if field.name == "technical_sheet" and record %}
+
+                        {% if record.technical_sheet %}
+
+                            <div class="mt-3">
+
+                                <p class="form-text">
+                                    Ficha técnica actual:
+                                </p>
+
+                                <a
+                                    href="{{ record.technical_sheet.url }}"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="btn outline-btn"
+                                >
+
+                                    📄 VER FICHA TÉCNICA
+
+                                </a>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+
+                    <!-- =====================================
+                         AVATAR ACTUAL
+                         ===================================== -->
+
+                    {% if field.name == "avatar" and record %}
+
+                        {% if record.avatar %}
+
+                            <div class="mt-3">
+
+                                <p class="form-text">
+                                    Avatar actual:
+                                </p>
+
+                                <img
+                                    src="{{ record.avatar.url }}"
+                                    alt="Avatar de {{ record.nickname }}"
+                                    style="
+                                        width: 130px;
+                                        height: 130px;
+                                        object-fit: cover;
+                                        border-radius: 50%;
+                                        border: 1px solid rgba(0, 255, 255, 0.35);
+                                        box-shadow: 0 0 15px rgba(0, 255, 255, 0.12);
+                                    "
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- =================================================
+                 BOTONES
+                 ================================================= -->
+
+            <div class="vault-form-actions">
+
+                <button
+                    type="submit"
+                    class="btn neon-btn"
+                >
+
+                    {% if record %}
+
+                        ⚡ GUARDAR CAMBIOS
+
+                    {% else %}
+
+                        ⚡ CREAR REGISTRO
+
+                    {% endif %}
+
+                </button>
+
+
+                <a
+                    href="{% url 'vault_list' module %}"
+                    class="btn outline-btn"
+                >
+
+                    ← VOLVER
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

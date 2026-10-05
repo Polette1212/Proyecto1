@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+Eliminar pedido #{{ order.id }} | GameVault
+{% endblock %}
+
+{% block content %}
+
+<section
+    class="form-wrap vault-card"
+    style="
+        max-width:700px;
+        margin:50px auto;
+        text-align:center;
+    "
+>
+
+    <p class="eyebrow">
+        GAMEVAULT // ZONA CRÍTICA
+    </p>
+
+
+    <h1>
+        ¿Eliminar esta transacción?
+    </h1>
+
+
+    <p>
+        Estás a punto de eliminar el pedido
+        <strong>#{{ order.id }}</strong>.
+    </p>
+
+
+    <p>
+        Cliente:
+        <strong>{{ order.customer_name }}</strong>
+    </p>
+
+
+    <p>
+        Total de la compra:
+        <strong>
+            ${{ order.total|floatformat:0 }}
+        </strong>
+    </p>
+
+
+    <p
+        style="
+            margin-top:25px;
+            margin-bottom:30px;
+        "
+    >
+        Esta acción no se puede deshacer.
+        Al confirmar, el pedido será eliminado
+        del historial de compras.
+    </p>
+
+
+    <form
+        method="post"
+        style="
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            flex-wrap:wrap;
+        "
+    >
+
+        {% csrf_token %}
+
+
+        <button
+            type="submit"
+            class="btn danger-btn"
+        >
+            🗑 Sí, eliminar pedido
+        </button>
+
+
+        <a
+            href="{% url 'admin_order_detail' order.id %}"
+            class="btn outline-btn"
+        >
+            Cancelar
+        </a>
+
+    </form>
+
+</section>
+
+{% endblock %}

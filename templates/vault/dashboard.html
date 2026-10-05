@@ -1,0 +1,741 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Panel | GameVault
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =========================================================
+     CABECERA DEL PANEL
+     ========================================================= -->
+
+<section class="hero-vault">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // CENTRO DE CONTROL
+        </p>
+
+
+        <h1>
+
+            Hola, {{ user.username }}
+
+            <span>
+                🎮
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            Perfil activo:
+
+            <strong>
+                {{ role }}
+            </strong>.
+
+            Administra tu universo gamer,
+            revisa movimientos y mantén todo
+            bajo control sin perder el ritmo.
+
+        </p>
+
+    </div>
+
+
+    <div class="level-badge">
+
+        LVL
+
+        <br>
+
+        <strong>
+            01
+        </strong>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TARJETAS PRINCIPALES
+     ========================================================= -->
+
+<div class="row g-4 mb-5">
+
+
+    <!-- VIDEOJUEGOS -->
+
+    <div class="col-md-4">
+
+        <a
+            class="metric-card"
+            href="{% url 'vault_list' 'games' %}"
+        >
+
+            <span>
+                🕹️
+            </span>
+
+
+            <strong>
+                {{ game_count }}
+            </strong>
+
+
+            <small>
+                Videojuegos
+            </small>
+
+
+            <div class="mt-2">
+
+                <small>
+                    Ver catálogo administrativo →
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- GAMERS -->
+
+    <div class="col-md-4">
+
+        <a
+            class="metric-card purple"
+            href="{% url 'vault_list' 'gamers' %}"
+        >
+
+            <span>
+                👾
+            </span>
+
+
+            <strong>
+                {{ gamer_count }}
+            </strong>
+
+
+            <small>
+                Perfiles gamer
+            </small>
+
+
+            <div class="mt-2">
+
+                <small>
+                    Administrar perfiles →
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- BIBLIOTECA -->
+
+    <div class="col-md-4">
+
+        <a
+            class="metric-card pink"
+            href="{% url 'vault_list' 'library' %}"
+        >
+
+            <span>
+                📚
+            </span>
+
+
+            <strong>
+                {{ entry_count }}
+            </strong>
+
+
+            <small>
+                Entradas en biblioteca
+            </small>
+
+
+            <div class="mt-2">
+
+                <small>
+                    Ver biblioteca →
+                </small>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     ZONA EXCLUSIVA DEL ADMINISTRADOR
+     ========================================================= -->
+
+{% if role == "Administrador" %}
+
+
+<section class="vault-card mb-5">
+
+
+    <div class="section-title">
+
+        <div>
+
+            <p class="eyebrow">
+                GAMEVAULT // ADMIN
+            </p>
+
+
+            <h2>
+                Centro de administración 🛡️
+            </h2>
+
+
+            <p class="mb-0">
+
+                Desde aquí puedes administrar usuarios,
+                revisar compras y controlar las principales
+                áreas del sistema.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row g-4 mt-2">
+
+
+        <!-- =================================================
+             USUARIOS
+             ================================================= -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <a
+                href="{% url 'admin_users' %}"
+                class="metric-card"
+            >
+
+                <span>
+                    👥
+                </span>
+
+
+                <strong>
+                    {{ user_count }}
+                </strong>
+
+
+                <small>
+                    Usuarios
+                </small>
+
+
+                <div class="mt-2">
+
+                    <small>
+                        Crear · editar · eliminar
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             COMPRAS
+             ================================================= -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <a
+                href="{% url 'admin_orders' %}"
+                class="metric-card purple"
+            >
+
+                <span>
+                    🛒
+                </span>
+
+
+                <strong>
+                    {{ order_count }}
+                </strong>
+
+
+                <small>
+                    Compras
+                </small>
+
+
+                <div class="mt-2">
+
+                    <small>
+                        Revisar historial
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             NUEVO USUARIO
+             ================================================= -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <a
+                href="{% url 'admin_user_create' %}"
+                class="metric-card pink"
+            >
+
+                <span>
+                    ➕
+                </span>
+
+
+                <strong>
+                    NUEVO
+                </strong>
+
+
+                <small>
+                    Crear usuario
+                </small>
+
+
+                <div class="mt-2">
+
+                    <small>
+                        Asignar rol
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ROLES
+             ================================================= -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <a
+                href="{% url 'admin_users' %}"
+                class="metric-card"
+            >
+
+                <span>
+                    🛡️
+                </span>
+
+
+                <strong>
+                    ROLES
+                </strong>
+
+
+                <small>
+                    Gestionar permisos
+                </small>
+
+
+                <div class="mt-2">
+
+                    <small>
+                        Admin · Operador · Consulta
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     COMPRAS RECIENTES DEL ADMINISTRADOR
+     ========================================================= -->
+
+<section class="vault-card mb-5">
+
+
+    <div class="section-title">
+
+        <div>
+
+            <p class="eyebrow">
+                GAMEVAULT // TRANSACCIONES
+            </p>
+
+
+            <h2>
+                Últimas compras 💳
+            </h2>
+
+
+            <p class="mb-0">
+
+                Revisa rápidamente las últimas
+                operaciones realizadas en la tienda.
+
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'admin_orders' %}"
+            class="btn outline-btn"
+        >
+
+            VER TODAS
+
+        </a>
+
+    </div>
+
+
+
+    {% if recent_orders %}
+
+
+        <div class="table-responsive mt-3">
+
+
+            <table class="table vault-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Pedido
+                        </th>
+
+
+                        <th>
+                            Cliente
+                        </th>
+
+
+                        <th>
+                            Fecha y hora
+                        </th>
+
+
+                        <th>
+                            Estado
+                        </th>
+
+
+                        <th>
+                            Total
+                        </th>
+
+
+                        <th>
+                            Acción
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for order in recent_orders %}
+
+
+                        <tr>
+
+
+                            <td>
+
+                                <strong>
+                                    #{{ order.id }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ order.customer_name }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ order.created_at|date:"d/m/Y H:i" }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+
+                                    {{ order.get_status_display }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+
+                                    ${{ order.total|floatformat:0 }}
+
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="{% url 'admin_order_detail' order.id %}"
+                                    class="outline-btn"
+                                >
+
+                                    👁️ Ver
+
+                                </a>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <p class="empty">
+
+            Todavía no existen compras registradas.
+
+            Cuando un cliente realice una compra,
+            aparecerá aquí automáticamente. 🛒
+
+        </p>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endif %}
+
+
+
+<!-- =========================================================
+     ACTIVIDAD DE BIBLIOTECA
+     ========================================================= -->
+
+<section class="vault-card">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <p class="eyebrow">
+                ÚLTIMO MOVIMIENTO
+            </p>
+
+
+            <h2>
+                Actividad de biblioteca
+            </h2>
+
+        </div>
+
+
+        <a
+            href="{% url 'vault_list' 'library' %}"
+            class="btn outline-btn"
+        >
+
+            VER TODO
+
+        </a>
+
+    </div>
+
+
+
+    {% if recent_entries %}
+
+
+        <div class="table-responsive">
+
+
+            <table class="table vault-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Gamer
+                        </th>
+
+
+                        <th>
+                            Juego
+                        </th>
+
+
+                        <th>
+                            Estado
+                        </th>
+
+
+                        <th>
+                            Puntuación
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    {% for entry in recent_entries %}
+
+
+                        <tr>
+
+
+                            <td>
+                                {{ entry.gamer }}
+                            </td>
+
+
+                            <td>
+                                {{ entry.game }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+
+                                    {{ entry.get_status_display }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ entry.score|default:"-" }}
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <p class="empty">
+
+            Todavía no hay registros.
+
+            Crea tu primera biblioteca
+            para comenzar. 🎮
+
+        </p>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endblock %}

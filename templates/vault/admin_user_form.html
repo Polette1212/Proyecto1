@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if target_user %}
+Editar usuario | GameVault
+{% else %}
+Nuevo usuario | GameVault
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<section
+    class="form-wrap vault-card"
+    style="
+        max-width:850px;
+        margin:40px auto;
+    "
+>
+
+    <section class="page-heading">
+
+        <div>
+
+            <p class="eyebrow">
+                GAMEVAULT // ADMINISTRACIÓN DE USUARIOS
+            </p>
+
+            <h1>
+
+                {% if target_user %}
+                    Editar usuario
+                {% else %}
+                    Crear nuevo usuario
+                {% endif %}
+
+            </h1>
+
+            <p>
+
+                {% if target_user %}
+                    Modifica los datos, rol y estado del usuario.
+                {% else %}
+                    Registra un nuevo usuario y asigna su perfil de acceso.
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a
+                href="{% url 'admin_users' %}"
+                class="btn outline-btn"
+                style="
+                    color:#ffffff !important;
+                    background:rgba(0,0,0,.45) !important;
+                    border:2px solid #ffffff !important;
+                    text-shadow:
+                        0 0 5px #ffffff,
+                        0 0 10px #ffffff,
+                        0 0 18px rgba(255,255,255,.9);
+                    box-shadow:
+                        0 0 8px rgba(255,255,255,.7),
+                        0 0 18px rgba(255,255,255,.35);
+                    font-weight:800;
+                "
+            >
+                ← Volver a usuarios
+            </a>
+
+        </div>
+
+    </section>
+
+
+    {% if form.non_field_errors %}
+
+        <div
+            class="alert alert-danger"
+            role="alert"
+            style="
+                margin-bottom:25px;
+            "
+        >
+
+            {% for error in form.non_field_errors %}
+
+                <div>
+                    {{ error }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <form
+        method="post"
+        novalidate
+    >
+
+        {% csrf_token %}
+
+
+        {% for field in form %}
+
+            <div
+                class="form-group"
+                style="
+                    margin-bottom:22px;
+                "
+            >
+
+                <label
+                    for="{{ field.id_for_label }}"
+                    style="
+                        display:block;
+                        margin-bottom:8px;
+                        font-weight:700;
+                        color:#ffffff;
+                        text-shadow:
+                            0 0 5px rgba(255,255,255,.8);
+                    "
+                >
+                    {{ field.label }}
+                </label>
+
+
+                {{ field }}
+
+
+                {% if field.help_text %}
+
+                    <small
+                        style="
+                            display:block;
+                            margin-top:7px;
+                            color:#ffffff;
+                            opacity:.85;
+                        "
+                    >
+                        {{ field.help_text }}
+                    </small>
+
+                {% endif %}
+
+
+                {% for error in field.errors %}
+
+                    <div
+                        style="
+                            margin-top:7px;
+                            color:#ff6b8a;
+                            font-weight:700;
+                            text-shadow:
+                                0 0 6px rgba(255,0,80,.7);
+                        "
+                    >
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endfor %}
+
+
+        {% if not target_user %}
+
+            <div
+                class="vault-card"
+                style="
+                    margin-top:25px;
+                    margin-bottom:25px;
+                    border:1px solid rgba(255,255,255,.25);
+                "
+            >
+
+                <p class="eyebrow">
+                    ROLES DISPONIBLES
+                </p>
+
+                <h3>
+                    Permisos del usuario
+                </h3>
+
+                <p>
+                    <strong>Administrador:</strong>
+                    puede crear, modificar, eliminar y consultar.
+                </p>
+
+                <p>
+                    <strong>Operador:</strong>
+                    puede crear, modificar y consultar,
+                    pero no administrar usuarios ni eliminar
+                    información crítica.
+                </p>
+
+                <p>
+                    <strong>Consulta:</strong>
+                    puede visualizar y buscar información,
+                    pero no puede crear, modificar ni eliminar.
+                </p>
+
+                <p>
+                    <strong>Usuario:</strong>
+                    corresponde a un cliente registrado de GameVault.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <div
+            style="
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap;
+                align-items:center;
+                margin-top:30px;
+                padding-top:20px;
+                border-top:1px solid rgba(255,255,255,.18);
+            "
+        >
+
+            <button
+                type="submit"
+                class="btn neon-btn"
+                style="
+                    color:#ffffff !important;
+                    background:rgba(0,0,0,.55) !important;
+                    border:2px solid #ffffff !important;
+                    text-shadow:
+                        0 0 5px #ffffff,
+                        0 0 10px #ffffff,
+                        0 0 18px rgba(255,255,255,.9);
+                    box-shadow:
+                        0 0 8px rgba(255,255,255,.7),
+                        0 0 18px rgba(255,255,255,.35);
+                    font-weight:800;
+                    min-width:190px;
+                "
+            >
+
+                {% if target_user %}
+
+                    💾 GUARDAR CAMBIOS
+
+                {% else %}
+
+                    👤 CREAR USUARIO
+
+                {% endif %}
+
+            </button>
+
+
+            <a
+                href="{% url 'admin_users' %}"
+                class="btn outline-btn"
+                style="
+                    color:#ffffff !important;
+                    background:rgba(0,0,0,.55) !important;
+                    border:2px solid #ffffff !important;
+                    text-shadow:
+                        0 0 5px #ffffff,
+                        0 0 10px #ffffff,
+                        0 0 18px rgba(255,255,255,.9);
+                    box-shadow:
+                        0 0 8px rgba(255,255,255,.7),
+                        0 0 18px rgba(255,255,255,.35);
+                    font-weight:800;
+                    min-width:190px;
+                    text-align:center;
+                "
+            >
+                ← VOLVER A USUARIOS
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

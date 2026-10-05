@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+
+{% block title %}
+Administración de compras | GameVault
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // ADMINISTRACIÓN
+        </p>
+
+        <h1>
+            Historial de compras
+        </h1>
+
+        <p>
+            Consulta, revisa y administra los pedidos realizados
+            en GameVault.
+        </p>
+
+    </div>
+
+    <div>
+
+        <a
+            href="{% url 'vault_dashboard' %}"
+            class="btn outline-btn"
+        >
+            ← Volver al panel
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="vault-card">
+
+    <div class="page-heading">
+
+        <div>
+
+            <h2>
+                Compras registradas
+            </h2>
+
+            <p>
+                Total de pedidos:
+                <strong>{{ orders|length }}</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <form
+        method="get"
+        class="search-form"
+        style="margin-bottom: 25px;"
+    >
+
+        <div class="form-group">
+
+            <label for="q">
+                Buscar compra
+            </label>
+
+            <input
+                type="text"
+                id="q"
+                name="q"
+                value="{{ request.GET.q|default:'' }}"
+                class="form-control"
+                placeholder="Cliente, RUT, correo, usuario o estado..."
+            >
+
+        </div>
+
+
+        <div style="margin-top: 15px;">
+
+            <button
+                type="submit"
+                class="btn neon-btn"
+            >
+                🔎 Buscar
+            </button>
+
+            <a
+                href="{% url 'admin_orders' %}"
+                class="btn outline-btn"
+            >
+                Limpiar
+            </a>
+
+        </div>
+
+    </form>
+
+
+    {% if orders %}
+
+        <div style="overflow-x: auto;">
+
+            <table class="vault-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Pedido
+                        </th>
+
+                        <th>
+                            Cliente
+                        </th>
+
+                        <th>
+                            Tipo
+                        </th>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            Método
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for order in orders %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    #{{ order.id }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ order.customer_name }}
+                                </strong>
+
+                                <br>
+
+                                <small>
+                                    {{ order.customer_email }}
+                                </small>
+
+                                <br>
+
+                                <small>
+                                    RUT: {{ order.customer_rut }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if order.customer_type == "visitante" %}
+
+                                    Visitante
+
+                                {% else %}
+
+                                    Cliente registrado
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ order.created_at|date:"d/m/Y" }}
+
+                                <br>
+
+                                <small>
+                                    {{ order.created_at|date:"H:i" }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if order.payment_method == "tarjeta" %}
+
+                                    Tarjeta
+
+                                {% elif order.payment_method == "webpay" %}
+
+                                    Webpay
+
+                                {% else %}
+
+                                    {{ order.payment_method }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if order.status == "pagada" %}
+
+                                    <span>
+                                        Pagada
+                                    </span>
+
+                                {% elif order.status == "cancelada" %}
+
+                                    <span>
+                                        Cancelada
+                                    </span>
+
+                                {% else %}
+
+                                    <span>
+                                        Pendiente
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    ${{ order.total|floatformat:0 }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        gap:8px;
+                                        flex-wrap:wrap;
+                                        align-items:center;
+                                    "
+                                >
+
+                                    <!-- ===================================== -->
+                                    <!-- BOTÓN VER -->
+                                    <!-- ===================================== -->
+
+                                    <a
+                                        href="{% url 'admin_order_detail' order.id %}"
+                                        class="btn neon-btn"
+                                        style="
+                                            color:#ffffff !important;
+                                            text-shadow:0 0 8px rgba(255,255,255,.95);
+                                            font-weight:700;
+                                            border-color:#ffffff;
+                                        "
+                                    >
+                                        👁 Ver
+                                    </a>
+
+
+                                    <!-- ===================================== -->
+                                    <!-- BOTÓN COMPROBANTE -->
+                                    <!-- ===================================== -->
+
+                                    <a
+                                        href="{% url 'order_receipt_pdf' order.id %}"
+                                        class="btn neon-btn"
+                                        style="
+                                            color:#ffffff !important;
+                                            text-shadow:0 0 8px rgba(255,255,255,.95);
+                                            font-weight:700;
+                                            border-color:#ffffff;
+                                        "
+                                    >
+                                        📄 Comprobante
+                                    </a>
+
+
+                                    <!-- ===================================== -->
+                                    <!-- BOTÓN ELIMINAR -->
+                                    <!-- SOLO ADMINISTRADOR -->
+                                    <!-- ===================================== -->
+
+                                    {% if request.user.is_superuser %}
+
+                                        <a
+                                            href="{% url 'admin_order_delete' order.id %}"
+                                            class="btn danger-btn"
+                                            style="
+                                                font-weight:700;
+                                            "
+                                        >
+                                            🗑 Eliminar
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="vault-card">
+
+            <h3>
+                No hay compras registradas.
+            </h3>
+
+            <p>
+                Cuando un cliente complete una compra,
+                aparecerá aquí.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

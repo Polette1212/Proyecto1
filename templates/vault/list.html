@@ -1,0 +1,825 @@
+{% extends "base.html" %}
+{% load vault_tags %}
+
+{% block title %}
+    {{ config.title }} | GameVault
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ============================================================
+   BOTÓN CREAR NUEVO REGISTRO
+   ============================================================ */
+
+.gamevault-create-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 12px 22px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff1744 !important;
+    border-radius: 8px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff1744 !important;
+
+    box-shadow:
+        0 0 5px #ff1744,
+        0 0 12px rgba(255, 23, 68, 0.75),
+        inset 0 0 8px rgba(255, 23, 68, 0.15) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-create-btn:hover {
+    color: #ffffff !important;
+    background: #ff1744 !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #ff1744,
+        0 0 20px #ff1744,
+        0 0 35px rgba(255, 23, 68, 0.9) !important;
+
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   BOTÓN BUSCAR
+   ============================================================ */
+
+.gamevault-search-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 10px 20px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff1744 !important;
+    border-radius: 8px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff1744 !important;
+
+    box-shadow:
+        0 0 5px #ff1744,
+        0 0 10px rgba(255, 23, 68, 0.7) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-search-btn:hover {
+    color: #ffffff !important;
+    background: #ff1744 !important;
+
+    text-shadow:
+        0 0 6px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #ff1744,
+        0 0 20px #ff1744 !important;
+}
+
+
+/* ============================================================
+   BOTÓN EDITAR
+   ============================================================ */
+
+.gamevault-edit-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 7px 14px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff4fd8 !important;
+    border-radius: 7px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 0.8px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff4fd8 !important;
+
+    box-shadow:
+        0 0 5px #ff4fd8,
+        0 0 12px rgba(255, 79, 216, 0.65) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-edit-btn:hover {
+    color: #ffffff !important;
+    background: #ff4fd8 !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #ff4fd8,
+        0 0 20px #ff4fd8 !important;
+}
+
+
+/* ============================================================
+   BOTÓN ELIMINAR
+   ============================================================ */
+
+.gamevault-delete-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 7px 14px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff4fd8 !important;
+    border-radius: 7px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 0.8px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff4fd8 !important;
+
+    box-shadow:
+        0 0 5px #ff4fd8,
+        0 0 12px rgba(255, 79, 216, 0.65) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-delete-btn:hover {
+    color: #ffffff !important;
+    background: #ff4fd8 !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #ff4fd8,
+        0 0 20px #ff4fd8 !important;
+}
+
+
+/* ============================================================
+   BOTÓN LIMPIAR
+   ============================================================ */
+
+.gamevault-clear-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 10px 18px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff1744 !important;
+    border-radius: 8px !important;
+
+    font-weight: 800 !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 8px #ff1744 !important;
+
+    box-shadow:
+        0 0 5px #ff1744,
+        0 0 10px rgba(255, 23, 68, 0.6) !important;
+}
+
+.gamevault-clear-btn:hover {
+    color: #ffffff !important;
+    background: #ff1744 !important;
+}
+
+
+/* ============================================================
+   BOTÓN VOLVER AL PANEL
+   ============================================================ */
+
+.gamevault-back-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 10px 20px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #ff4fd8 !important;
+    border-radius: 8px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #ff4fd8 !important;
+
+    box-shadow:
+        0 0 5px #ff4fd8,
+        0 0 12px rgba(255, 79, 216, 0.65) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-back-btn:hover {
+    color: #ffffff !important;
+    background: #ff4fd8 !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #ff4fd8,
+        0 0 20px #ff4fd8,
+        0 0 30px rgba(255, 79, 216, 0.8) !important;
+
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   BOTÓN CATÁLOGO
+   ============================================================ */
+
+.gamevault-catalog-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 10px 20px !important;
+
+    color: #ffffff !important;
+    background: #080808 !important;
+
+    border: 2px solid #00e5ff !important;
+    border-radius: 8px !important;
+
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #00e5ff !important;
+
+    box-shadow:
+        0 0 5px #00e5ff,
+        0 0 12px rgba(0, 229, 255, 0.65) !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.gamevault-catalog-btn:hover {
+    color: #ffffff !important;
+    background: #00e5ff !important;
+
+    text-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff !important;
+
+    box-shadow:
+        0 0 8px #00e5ff,
+        0 0 20px #00e5ff !important;
+
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   SEPARACIÓN DE LOS BOTONES
+   ============================================================ */
+
+.actions {
+    white-space: nowrap !important;
+}
+
+.actions .btn {
+    margin-right: 6px !important;
+}
+
+.actions .btn:last-child {
+    margin-right: 0 !important;
+}
+
+
+/* ============================================================
+   NAVEGACIÓN INFERIOR
+   ============================================================ */
+
+.gamevault-panel-navigation {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+
+    margin-top: 24px !important;
+    padding-top: 20px !important;
+
+    border-top: 1px solid rgba(255, 79, 216, 0.25) !important;
+}
+
+
+/* ============================================================
+   PANTALLAS PEQUEÑAS
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .gamevault-panel-navigation {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .gamevault-panel-navigation .btn {
+        width: 100% !important;
+    }
+
+    .actions {
+        white-space: normal !important;
+    }
+
+}
+
+</style>
+
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // MÓDULO {{ module|upper }}
+        </p>
+
+        <h1>
+            {{ config.icon }}
+            {{ config.title }}
+        </h1>
+
+        <p>
+            Consulta, busca y gestiona los registros almacenados
+            en la base de datos.
+        </p>
+
+    </div>
+
+
+    <!-- ========================================================
+         BOTÓN CREAR
+         ADMINISTRADOR Y OPERADOR
+         ======================================================== -->
+
+    {% if can_write %}
+
+        <a
+            class="btn gamevault-create-btn"
+            href="{% url 'vault_create' module %}"
+        >
+            + NUEVO {{ config.title|upper }}
+        </a>
+
+    {% endif %}
+
+</section>
+
+
+<section class="vault-card vault-list-card">
+
+    <div class="vault-list-header">
+
+        <div>
+
+            <p class="eyebrow">
+                ACCESO A BASE DE DATOS
+            </p>
+
+            <h2>
+                Registros de {{ config.title }}
+            </h2>
+
+        </div>
+
+
+        <div class="vault-list-status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                SISTEMA ONLINE
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         BUSCADOR
+         ======================================================== -->
+
+    <form
+        class="searchbar vault-searchbar"
+        method="get"
+    >
+
+        <div class="search-input-wrap">
+
+            <span class="search-icon">
+                🔎
+            </span>
+
+            <input
+                class="form-control"
+                type="search"
+                name="q"
+                value="{{ search }}"
+                placeholder="Buscar en {{ config.title|lower }}..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn gamevault-search-btn"
+        >
+            BUSCAR
+        </button>
+
+
+        {% if search %}
+
+            <a
+                href="{% url 'vault_list' module %}"
+                class="btn gamevault-clear-btn"
+            >
+                LIMPIAR
+            </a>
+
+        {% endif %}
+
+    </form>
+
+
+    {% if search %}
+
+        <div class="search-result-info">
+
+            <span>
+                🔎 Resultado de búsqueda:
+            </span>
+
+            <strong>
+                "{{ search }}"
+            </strong>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ========================================================
+         TABLA DE REGISTROS
+         ======================================================== -->
+
+    <div class="table-responsive">
+
+        <table class="table vault-table">
+
+            <thead>
+
+                <tr>
+
+                    {% for field in config.fields %}
+
+                        <th>
+
+                            {% if field == "title" %}
+                                Título
+                            {% elif field == "genre" %}
+                                Género
+                            {% elif field == "platform" %}
+                                Plataforma
+                            {% elif field == "launch_year" %}
+                                Año de lanzamiento
+                            {% elif field == "synopsis" %}
+                                Sinopsis
+                            {% elif field == "price" %}
+                                Precio
+                            {% elif field == "stock" %}
+                                Stock
+                            {% elif field == "cover" %}
+                                Portada
+                            {% elif field == "technical_sheet" %}
+                                Ficha técnica
+                            {% elif field == "user" %}
+                                Usuario
+                            {% elif field == "nickname" %}
+                                Apodo
+                            {% elif field == "favorite_genre" %}
+                                Género favorito
+                            {% elif field == "avatar" %}
+                                Avatar
+                            {% elif field == "gamer" %}
+                                Gamer
+                            {% elif field == "game" %}
+                                Videojuego
+                            {% elif field == "status" %}
+                                Estado
+                            {% elif field == "score" %}
+                                Puntuación
+                            {% else %}
+                                {{ field|capfirst }}
+                            {% endif %}
+
+                        </th>
+
+                    {% endfor %}
+
+
+                    {% if can_write or can_delete %}
+
+                        <th>
+                            ACCIONES
+                        </th>
+
+                    {% endif %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for object in records %}
+
+                    <tr>
+
+                        {% for field in config.fields %}
+
+                            <td>
+
+                                {% if field == "cover" %}
+
+                                    {% if object.cover %}
+
+                                        <img
+                                            src="{{ object.cover.url }}"
+                                            alt="Portada de {{ object.title }}"
+                                            class="game-cover-thumb"
+                                        >
+
+                                    {% else %}
+
+                                        <span>
+                                            Sin portada
+                                        </span>
+
+                                    {% endif %}
+
+                                {% elif field == "price" %}
+
+                                    ${{ object.price|floatformat:0 }}
+
+                                {% elif field == "stock" %}
+
+                                    {% if object.stock > 0 %}
+
+                                        {{ object.stock }}
+
+                                    {% else %}
+
+                                        <span class="text-danger">
+                                            SIN STOCK
+                                        </span>
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    {{ object|field_value:field }}
+
+                                {% endif %}
+
+                            </td>
+
+                        {% endfor %}
+
+
+                        <!-- =================================================
+                             ACCIONES
+                             ================================================= -->
+
+                        {% if can_write or can_delete %}
+
+                            <td class="actions">
+
+
+                                <!-- EDITAR
+                                     ADMINISTRADOR Y OPERADOR
+                                -->
+
+                                {% if can_write %}
+
+                                    <a
+                                        class="btn gamevault-edit-btn"
+                                        href="{% url 'vault_edit' module object.pk %}"
+                                        title="Editar registro"
+                                    >
+                                        EDITAR
+                                    </a>
+
+                                {% endif %}
+
+
+                                <!-- ELIMINAR
+                                     SOLO ADMINISTRADOR
+                                -->
+
+                                {% if can_delete %}
+
+                                    <a
+                                        class="btn gamevault-delete-btn"
+                                        href="{% url 'vault_delete' module object.pk %}"
+                                        title="Eliminar registro"
+                                    >
+                                        ELIMINAR
+                                    </a>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        {% endif %}
+
+                    </tr>
+
+
+                {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="{{ config.fields|length|add:'1' }}"
+                            class="empty"
+                        >
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    +
+                                </div>
+
+                                <h3>
+                                    NO SE ENCONTRARON REGISTROS
+                                </h3>
+
+                                <p>
+
+                                    {% if search %}
+
+                                        No existen registros que coincidan
+                                        con "{{ search }}".
+
+                                    {% else %}
+
+                                        Este módulo todavía no contiene
+                                        registros.
+
+                                    {% endif %}
+
+                                </p>
+
+
+                                {% if search %}
+
+                                    <a
+                                        href="{% url 'vault_list' module %}"
+                                        class="btn gamevault-clear-btn"
+                                    >
+                                        VER TODOS LOS REGISTROS
+                                    </a>
+
+                                {% elif can_write %}
+
+                                    <a
+                                        href="{% url 'vault_create' module %}"
+                                        class="btn gamevault-create-btn"
+                                    >
+                                        + CREAR PRIMER REGISTRO
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% if records %}
+
+        <div class="vault-list-footer">
+
+            <span>
+                REGISTROS DISPONIBLES:
+                <strong>{{ records|length }}</strong>
+            </span>
+
+            <span>
+                PERFIL:
+                <strong>{{ role|upper }}</strong>
+            </span>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ========================================================
+         NAVEGACIÓN DEL PANEL
+         ======================================================== -->
+
+    <div class="gamevault-panel-navigation">
+
+        <a
+            href="{% url 'vault_dashboard' %}"
+            class="btn gamevault-back-btn"
+        >
+            ← VOLVER AL PANEL
+        </a>
+
+
+        {% if module == "games" %}
+
+            <a
+                href="{% url 'videojuegos' %}"
+                class="btn gamevault-catalog-btn"
+            >
+                🎮 IR AL CATÁLOGO
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

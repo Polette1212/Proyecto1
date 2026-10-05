@@ -1,0 +1,175 @@
+[
+    {
+        "id": 11,
+        "nombre": "Call of Duty: Black Ops III",
+        "genero": "Acción / FPS",
+        "plataforma": "PC / Mac",
+        "descripcion": "Videojuego de acción y disparos en primera persona ambientado en un futuro donde la tecnología y los soldados mejorados tienen un papel fundamental.",
+        "desarrollador": "Treyarch",
+        "lanzamiento": "2015",
+        "modo": "Un jugador / Multijugador / Cooperativo",
+        "evaluacion": 8.5,
+        "precio": 29990,
+        "imagen": "black_ops_3.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 7 64-Bit / Windows 8 64-Bit / Windows 8.1 64-Bit",
+            "procesador": "Intel Core i3-530 2.93 GHz / AMD Phenom II X4 810 2.60 GHz",
+            "memoria": "6 GB de RAM",
+            "graficos": "NVIDIA GeForce GTX 470 1GB / ATI Radeon HD 6970 1GB",
+            "directx": "Versión 11",
+            "almacenamiento": "100 GB",
+            "red": "Conexión de banda ancha a Internet"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 10 o superior",
+            "memoria": "8 GB de RAM",
+            "almacenamiento": "100 GB"
+        }
+    },
+    {
+        "id": 12,
+        "nombre": "Battlefield 4",
+        "genero": "Acción / FPS",
+        "plataforma": "PC",
+        "descripcion": "Shooter en primera persona centrado en combates militares, grandes escenarios destructibles y enfrentamientos multijugador.",
+        "desarrollador": "DICE",
+        "lanzamiento": "2013",
+        "modo": "Un jugador / Multijugador",
+        "evaluacion": 8.2,
+        "precio": 19990,
+        "imagen": "battlefield_4.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 8 32-bit",
+            "procesador": "AMD Athlon X2 2.8 GHz / Intel Core 2 Duo 2.4 GHz",
+            "memoria": "4 GB de RAM",
+            "graficos": "AMD Radeon HD 3870 / NVIDIA GeForce 8800 GT",
+            "almacenamiento": "30 GB",
+            "red": "Conexión de banda ancha a Internet"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 8 64-bit",
+            "procesador": "CPU AMD de seis núcleos / CPU Intel de cuatro núcleos",
+            "memoria": "8 GB de RAM",
+            "graficos": "AMD Radeon HD 7870 / NVIDIA GeForce GTX 660",
+            "almacenamiento": "30 GB"
+        }
+    },
+    {
+        "id": 14,
+        "nombre": "Valiant Hearts: The Great War",
+        "genero": "Aventura / Puzles",
+        "plataforma": "PC",
+        "descripcion": "Aventura narrativa ambientada durante la Primera Guerra Mundial que combina exploración, resolución de puzles y una historia centrada en varios personajes.",
+        "desarrollador": "Ubisoft Montpellier",
+        "lanzamiento": "2014",
+        "modo": "Un jugador",
+        "evaluacion": 8.4,
+        "precio": 14990,
+        "imagen": "valiant_hearts.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 7 / Windows 10 / Windows 11",
+            "procesador": "Intel Pentium IV 630 3.0 GHz / AMD Athlon64 3000+ 1.8 GHz",
+            "memoria": "2 GB de RAM",
+            "graficos": "NVIDIA GeForce 8800 GT / AMD Radeon HD 2900 XT 512MB",
+            "directx": "Versión 9.0",
+            "almacenamiento": "2 GB",
+            "sonido": "Tarjeta de sonido compatible con DirectX"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 10 / Windows 11",
+            "procesador": "Intel Core 2 Duo E4400 2.0 GHz / AMD Athlon64 X2 3800+ 2 GHz",
+            "memoria": "2 GB de RAM",
+            "graficos": "NVIDIA GeForce 9600GT o superior",
+            "almacenamiento": "2 GB"
+        }
+    },
+    {
+        "id": 15,
+        "nombre": "Total War: WARHAMMER",
+        "genero": "Estrategia / Fantasía",
+        "plataforma": "PC / Mac",
+        "descripcion": "Juego de estrategia que combina campañas por turnos con grandes batallas en tiempo real dentro del universo fantástico de Warhammer.",
+        "desarrollador": "Creative Assembly",
+        "lanzamiento": "2016",
+        "modo": "Un jugador / Multijugador",
+        "evaluacion": 8.3,
+        "precio": 24990,
+        "imagen": "total_war_warhammer.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 7 64-bit",
+            "procesador": "Intel Core 2 Duo 3.0 GHz",
+            "memoria": "3 GB de RAM",
+            "graficos": "AMD Radeon HD 5770 1GB / NVIDIA GTS 450 1GB / Intel HD4000",
+            "directx": "Versión 11",
+            "almacenamiento": "35 GB"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 7 / 8.1 / 10 64-bit",
+            "procesador": "Intel Core i5-4570 3.20 GHz",
+            "memoria": "8 GB de RAM",
+            "graficos": "AMD Radeon R9 270X 2GB / NVIDIA GeForce GTX 760 2GB",
+            "directx": "Versión 11",
+            "almacenamiento": "35 GB"
+        }
+    },
+    {
+        "id": 16,
+        "nombre": "XCOM 2",
+        "genero": "Estrategia / Táctica",
+        "plataforma": "PC / Mac",
+        "descripcion": "Juego de estrategia táctica en el que el jugador dirige una organización militar que lucha contra una ocupación alienígena de la Tierra.",
+        "desarrollador": "Firaxis Games",
+        "lanzamiento": "2016",
+        "modo": "Un jugador",
+        "evaluacion": 8.8,
+        "precio": 29990,
+        "imagen": "xcom_2.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 7 64-bit",
+            "procesador": "Intel Core 2 Duo E4700 2.6 GHz / AMD Phenom 9950 Quad Core 2.6 GHz",
+            "memoria": "4 GB de RAM",
+            "graficos": "ATI Radeon HD 5770 1GB / NVIDIA GeForce GTX 460 1GB",
+            "directx": "Versión 11",
+            "almacenamiento": "45 GB",
+            "sonido": "Tarjeta de sonido compatible con DirectX"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 7 64-bit",
+            "procesador": "3 GHz Quad Core",
+            "memoria": "8 GB de RAM",
+            "graficos": "ATI Radeon HD 7970 2GB / NVIDIA GeForce GTX 770 2GB",
+            "almacenamiento": "45 GB"
+        }
+    },
+    {
+        "id": 17,
+        "nombre": "Baldur's Gate 3",
+        "genero": "RPG / Aventura",
+        "plataforma": "PC / Mac",
+        "descripcion": "RPG de fantasía basado en el universo de Dungeons & Dragons, con exploración, decisiones narrativas, combate táctico y una amplia variedad de personajes.",
+        "desarrollador": "Larian Studios",
+        "lanzamiento": "2023",
+        "modo": "Un jugador / Multijugador / Cooperativo",
+        "evaluacion": 9.6,
+        "precio": 19990,
+        "imagen": "baldurs_gate_3.jpg",
+        "requisitos_minimos": {
+            "sistema_operativo": "Windows 10 64-bit",
+            "procesador": "Intel i5-4690 / AMD FX 8350 / Snapdragon X Elite",
+            "memoria": "8 GB de RAM",
+            "graficos": "NVIDIA GTX 970 / RX 480 / Intel Arc A380 / Qualcomm Adreno X1",
+            "directx": "Versión 11",
+            "almacenamiento": "150 GB",
+            "notas": "Se requiere SSD"
+        },
+        "requisitos_recomendados": {
+            "sistema_operativo": "Windows 10 64-bit",
+            "procesador": "Intel i7-8700K / AMD Ryzen 5 3600",
+            "memoria": "16 GB de RAM",
+            "graficos": "NVIDIA RTX 2060 Super / RX 5700 XT / Intel Arc A580",
+            "directx": "Versión 11",
+            "almacenamiento": "150 GB",
+            "notas": "Se requiere SSD"
+        }
+    }
+]

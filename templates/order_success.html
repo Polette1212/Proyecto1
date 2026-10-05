@@ -1,0 +1,400 @@
+{% extends "base.html" %}
+
+{% block title %}
+Compra realizada | GameVault
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // COMPRA
+        </p>
+
+        <h1>
+            ✅ Compra realizada correctamente
+        </h1>
+
+        <p>
+            Tu pedido fue registrado correctamente.
+            A continuación puedes revisar el resumen de tu compra.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="vault-card">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+
+            <h2>
+                Pedido #{{ order.id }}
+            </h2>
+
+            <p>
+                <strong>Fecha:</strong>
+                {{ order.created_at|date:"d/m/Y H:i" }}
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <p>
+                <strong>Estado:</strong>
+                {{ order.get_status_display }}
+            </p>
+
+            <p>
+                <strong>Tipo de cliente:</strong>
+                {{ order.get_customer_type_display }}
+            </p>
+
+            <p>
+                <strong>Método de pago:</strong>
+                {{ order.get_payment_method_display }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <h3>
+        👤 Datos del cliente
+    </h3>
+
+
+    <div class="row g-3 mt-2">
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Nombre:</strong>
+                {{ order.customer_name }}
+            </p>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>RUT:</strong>
+                {{ order.customer_rut }}
+            </p>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Correo:</strong>
+                {{ order.customer_email }}
+            </p>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <p>
+                <strong>Teléfono:</strong>
+                {{ order.customer_phone }}
+            </p>
+
+        </div>
+
+
+        <div class="col-12">
+
+            <p>
+                <strong>Dirección:</strong>
+                {{ order.shipping_address }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <h3>
+        🛒 Productos comprados
+    </h3>
+
+
+    <div class="table-responsive mt-3">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Videojuego
+                    </th>
+
+                    <th>
+                        Cantidad
+                    </th>
+
+                    <th>
+                        Precio unitario
+                    </th>
+
+                    <th>
+                        Subtotal
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in items %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ item.game.title }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ item.quantity }}
+                        </td>
+
+
+                        <td>
+                            ${{ item.unit_price|floatformat:0 }}
+                        </td>
+
+
+                        <td>
+                            ${{ item.subtotal|floatformat:0 }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <hr>
+
+
+    <div class="d-flex justify-content-end">
+
+        <div style="min-width: 280px;">
+
+            <div class="d-flex justify-content-between mb-2">
+
+                <span>
+                    Subtotal:
+                </span>
+
+                <strong>
+                    ${{ order.subtotal|floatformat:0 }}
+                </strong>
+
+            </div>
+
+
+            <div class="d-flex justify-content-between mb-2">
+
+                <span>
+                    Descuento:
+                </span>
+
+                <strong>
+                    ${{ order.discount|floatformat:0 }}
+                </strong>
+
+            </div>
+
+
+            <div class="d-flex justify-content-between">
+
+                <strong>
+                    TOTAL:
+                </strong>
+
+                <strong>
+                    ${{ order.total|floatformat:0 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="cart-actions mt-4">
+
+        <!-- Descargar comprobante -->
+        <button
+            type="button"
+            id="btnComprobante"
+            class="neon-btn"
+            onclick="descargarComprobante()"
+        >
+            📄 Descargar comprobante
+        </button>
+
+
+        <!-- Historial de compras para usuarios registrados -->
+        {% if request.user.is_authenticated %}
+
+            <a
+                href="{% url 'order_history' %}"
+                class="outline-btn"
+            >
+                📦 Mis compras
+            </a>
+
+        {% endif %}
+
+
+        <!-- Volver al catálogo para realizar otra compra -->
+        <a
+            href="{% url 'videojuegos' %}"
+            class="outline-btn"
+        >
+            🎮 Volver a comprar
+        </a>
+
+    </div>
+
+</section>
+
+
+<script>
+
+async function descargarComprobante() {
+
+    const boton = document.getElementById(
+        "btnComprobante"
+    );
+
+    const url = "{% url 'order_receipt_pdf' order.id %}";
+
+    const destino = "{% url 'order_success' order.id %}";
+
+    try {
+
+        boton.disabled = true;
+
+        boton.innerText =
+            "⏳ Generando comprobante...";
+
+
+        const response = await fetch(
+            url,
+            {
+                method: "GET"
+            }
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "No fue posible generar el comprobante."
+            );
+
+        }
+
+
+        const blob = await response.blob();
+
+
+        const archivoUrl =
+            window.URL.createObjectURL(blob);
+
+
+        const enlace =
+            document.createElement("a");
+
+
+        enlace.href = archivoUrl;
+
+
+        enlace.download =
+            "comprobante_gamevault_{{ order.id }}.pdf";
+
+
+        document.body.appendChild(
+            enlace
+        );
+
+
+        enlace.click();
+
+
+        enlace.remove();
+
+
+        window.URL.revokeObjectURL(
+            archivoUrl
+        );
+
+
+        /*
+         * Después de descargar el comprobante,
+         * vuelve al resumen de la compra.
+         *
+         * Ejemplo:
+         * /videojuegos/compra/4/
+         */
+        window.location.href = destino;
+
+    } catch (error) {
+
+        alert(
+            "No fue posible descargar el comprobante."
+        );
+
+
+        boton.disabled = false;
+
+
+        boton.innerText =
+            "📄 Descargar comprobante";
+
+    }
+
+}
+
+</script>
+
+
+{% endblock %}

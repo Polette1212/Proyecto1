@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Crear cuenta | GameVault{% endblock %}
+
+{% block content %}
+
+<section class="login-shell">
+
+    <div class="vault-card login-card">
+
+        <p class="eyebrow">
+            NUEVO USUARIO
+        </p>
+
+        <h1>
+            Crea tu <span>GameVault</span>
+        </h1>
+
+        <p>
+            Regístrate para administrar tu colección gamer.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.username.id_for_label }}"
+                    class="form-label"
+                >
+                    {{ form.username.label }}
+                </label>
+
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="text-danger mt-1">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.email.id_for_label }}"
+                    class="form-label"
+                >
+                    {{ form.email.label }}
+                </label>
+
+                {{ form.email }}
+
+                {% if form.email.errors %}
+                    <div class="text-danger mt-1">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.password.id_for_label }}"
+                    class="form-label"
+                >
+                    {{ form.password.label }}
+                </label>
+
+                {{ form.password }}
+
+                {% if form.password.errors %}
+                    <div class="text-danger mt-1">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label
+                    for="{{ form.password_confirm.id_for_label }}"
+                    class="form-label"
+                >
+                    {{ form.password_confirm.label }}
+                </label>
+
+                {{ form.password_confirm }}
+
+                {% if form.password_confirm.errors %}
+                    <div class="text-danger mt-1">
+                        {{ form.password_confirm.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn neon-btn w-100 mt-3"
+            >
+                CREAR CUENTA
+            </button>
+
+        </form>
+
+
+        <div class="text-center mt-4">
+
+            <p>
+                ¿Ya tienes una cuenta?
+            </p>
+
+            <a
+                href="{% url 'login' %}"
+                class="btn outline-btn"
+            >
+                INICIAR SESIÓN
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block title %}
+Finalizar compra | GameVault
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // CHECKOUT
+        </p>
+
+        <h1>
+            💳 Finalizar compra
+        </h1>
+
+        <p>
+            Revisa tu pedido, completa los datos de despacho
+            y selecciona un método de pago.
+        </p>
+
+    </div>
+
+</section>
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div class="row g-4">
+
+
+        <!-- ================================================= -->
+        <!-- DATOS DEL CLIENTE -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-7">
+
+            <section class="vault-card">
+
+                <h2>
+                    👤 Datos del cliente
+                </h2>
+
+                <hr>
+
+
+                <div class="mb-3">
+
+                    <label
+                        for="customer_name"
+                        class="form-label"
+                    >
+                        Nombre completo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customer_name"
+                        name="customer_name"
+                        class="form-control"
+                        value="{{ default_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label
+                        for="customer_rut"
+                        class="form-label"
+                    >
+                        RUT
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customer_rut"
+                        name="customer_rut"
+                        class="form-control"
+                        placeholder="12.345.678-9"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label
+                        for="customer_email"
+                        class="form-label"
+                    >
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="customer_email"
+                        name="customer_email"
+                        class="form-control"
+                        value="{{ default_email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label
+                        for="customer_phone"
+                        class="form-label"
+                    >
+                        Teléfono
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customer_phone"
+                        name="customer_phone"
+                        class="form-control"
+                        placeholder="+56 9 1234 5678"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label
+                        for="shipping_address"
+                        class="form-label"
+                    >
+                        Dirección de despacho
+                    </label>
+
+                    <input
+                        type="text"
+                        id="shipping_address"
+                        name="shipping_address"
+                        class="form-control"
+                        placeholder="Calle, número, comuna"
+                        required
+                    >
+
+                </div>
+
+
+                {% if request.user.is_authenticated %}
+
+                    <div class="mt-3">
+
+                        <small>
+                            Cliente registrado:
+                            <strong>
+                                {{ request.user.username }}
+                            </strong>
+                        </small>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="mt-3">
+
+                        <small>
+                            Comprarás como
+                            <strong>
+                                Visitante
+                            </strong>
+                        </small>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- MÉTODO DE PAGO -->
+            <!-- ================================================= -->
+
+            <section class="vault-card mt-4">
+
+                <h2>
+                    💳 Método de pago
+                </h2>
+
+                <hr>
+
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="payment_method"
+                        id="payment_tarjeta"
+                        value="tarjeta"
+                        required
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="payment_tarjeta"
+                    >
+                        💳 Tarjeta de crédito o débito
+                    </label>
+
+                </div>
+
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="payment_method"
+                        id="payment_webpay"
+                        value="webpay"
+                        required
+                    >
+
+                    <label
+                        class="form-check-label"
+                        for="payment_webpay"
+                    >
+                        🌐 Webpay
+                    </label>
+
+                </div>
+
+
+                <p class="mt-3">
+
+                    <small>
+                        El pago es simulado para esta versión
+                        académica. Al confirmar la compra se registra
+                        el pedido y se descuenta el stock.
+                    </small>
+
+                </p>
+
+            </section>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- RESUMEN DEL PEDIDO -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-5">
+
+            <section class="vault-card">
+
+                <h2>
+                    🛒 Resumen del pedido
+                </h2>
+
+                <hr>
+
+
+                {% for item in items %}
+
+                    <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+
+                        <div>
+
+                            <strong>
+                                {{ item.game.title }}
+                            </strong>
+
+                            <div>
+
+                                <small>
+                                    Cantidad: {{ item.quantity }}
+                                </small>
+
+                            </div>
+
+                            <div>
+
+                                <small>
+                                    Precio unitario:
+                                    ${{ item.game.price|floatformat:0 }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                ${{ item.subtotal|floatformat:0 }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+
+                <hr>
+
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong>
+                        ${{ total|floatformat:0 }}
+                    </strong>
+
+                </div>
+
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span>
+                        Descuento
+                    </span>
+
+                    <strong>
+                        $0
+                    </strong>
+
+                </div>
+
+
+                <hr>
+
+
+                <div class="d-flex justify-content-between">
+
+                    <strong>
+                        TOTAL
+                    </strong>
+
+                    <strong>
+                        ${{ total|floatformat:0 }}
+                    </strong>
+
+                </div>
+
+
+                <div class="cart-actions mt-4">
+
+                    <a
+                        href="{% url 'cart' %}"
+                        class="outline-btn"
+                    >
+                        ← Volver al carrito
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="neon-btn"
+                    >
+                        ✅ Confirmar compra
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

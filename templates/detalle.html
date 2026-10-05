@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ juego.title }} | Space Gamer Turbo
+{% endblock %}
+
+{% block content %}
+
+<style> /* ===================================================== CONTROLES DE COMPRA DEL DETALLE ===================================================== */ .detalle-compra { margin-top: 25px; } .form-carrito { display: flex; align-items: end; gap: 15px; flex-wrap: wrap; } .cantidad-carrito { display: flex; flex-direction: column; gap: 6px; } .cantidad-carrito label { color: #ffffff; font-weight: 700; } .cantidad-carrito input { width: 90px; min-height: 44px; padding: 8px 12px; background: #111122 !important; color: #ffffff !important; border: 2px solid #00e5ff !important; border-radius: 8px; font-size: 18px; font-weight: 700; text-align: center; box-shadow: 0 0 10px rgba(0, 229, 255, 0.25); } .cantidad-carrito input:focus { outline: none; border-color: #ff4edb !important; box-shadow: 0 0 14px rgba(255, 78, 219, 0.45); } .boton-carrito { min-height: 44px; padding: 10px 20px; background: #111122 !important; color: #ffffff !important; border: 2px solid #ff4edb !important; border-radius: 8px; font-weight: 800; cursor: pointer; box-shadow: 0 0 12px rgba(255, 78, 219, 0.30); transition: 0.2s ease; } .boton-carrito:hover { background: #ff4edb !important; color: #ffffff !important; box-shadow: 0 0 18px rgba(255, 78, 219, 0.65); transform: translateY(-1px); } .boton-carrito.agotado { background: #111122 !important; color: #ff6b6b !important; border-color: #ff4b4b !important; cursor: not-allowed; box-shadow: none; } </style>
+
+<section class="detalle-videojuego">
+
+<div class="detalle-contenedor">
+
+
+    <!-- =====================================================
+         IMAGEN DEL VIDEOJUEGO
+         ===================================================== -->
+
+    <div class="detalle-imagen">
+
+        {% if juego.cover %}
+
+            <img
+                src="{{ juego.cover.url }}"
+                alt="{{ juego.title }}"
+            >
+
+        {% else %}
+
+            <div class="sin-imagen">
+                SIN PORTADA
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMACIÓN DEL VIDEOJUEGO
+         ===================================================== -->
+
+    <div class="detalle-informacion">
+
+        <h1>
+            {{ juego.title }}
+        </h1>
+
+
+        <!-- DESCRIPCIÓN -->
+
+        <p class="detalle-resena">
+
+            {% if juego.synopsis %}
+
+                {{ juego.synopsis }}
+
+            {% else %}
+
+                Sin descripción disponible.
+
+            {% endif %}
+
+        </p>
+
+
+        <!-- DATOS -->
+
+        <div class="detalle-datos">
+
+            <p>
+                🎯 <strong>Género:</strong>
+                {{ juego.genre }}
+            </p>
+
+            <p>
+                🕹️ <strong>Plataforma:</strong>
+                {{ juego.platform }}
+            </p>
+
+            <p>
+                📅 <strong>Año:</strong>
+                {{ juego.launch_year }}
+            </p>
+
+            <p>
+                📦 <strong>Stock:</strong>
+                {{ juego.stock }}
+            </p>
+
+            <p>
+                💰 <strong>Precio:</strong>
+                ${{ juego.price|floatformat:0 }}
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             RESEÑA
+             ================================================= -->
+
+        <div class="opinion-gamer">
+
+            <h2>
+                🎯 Nuestra reseña
+            </h2>
+
+            <p>
+                {{ juego.synopsis }}
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             COMPRA
+             ================================================= -->
+
+        <div class="detalle-compra">
+
+            {% if juego.stock > 0 %}
+
+                <form
+                    method="post"
+                    action="{% url 'cart_add' juego.id %}"
+                    class="form-carrito"
+                >
+
+                    {% csrf_token %}
+
+
+                    <div class="cantidad-carrito">
+
+                        <label for="cantidad-detalle">
+                            CANTIDAD
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cantidad-detalle"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max="{{ juego.stock }}"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="boton-carrito"
+                    >
+                        🛒 AGREGAR AL CARRITO
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <button
+                    type="button"
+                    class="boton-carrito agotado"
+                    disabled
+                >
+                    ❌ SIN STOCK
+                </button>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- VOLVER -->
+
+        <a
+            href="{% url 'videojuegos' %}"
+            class="boton-volver"
+        >
+            ⬅️ VOLVER A VIDEOJUEGOS
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}

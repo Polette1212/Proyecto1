@@ -1,0 +1,561 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Editar acceso | GameVault
+{% endblock %}
+
+
+{% block content %}
+
+<section
+    class="form-wrap vault-card"
+    style="
+        max-width:800px;
+        margin:40px auto;
+    "
+>
+
+    <!-- ======================================================
+         ENCABEZADO
+         ====================================================== -->
+
+    <div class="page-heading">
+
+        <div>
+
+            <p class="eyebrow">
+                GAMEVAULT // SEGURIDAD
+            </p>
+
+            <h1>
+                Configurar acceso
+            </h1>
+
+            <p>
+                Define el estado y horario de acceso para el usuario.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         INFORMACIÓN DEL USUARIO
+         ====================================================== -->
+
+    <div
+        class="vault-card"
+        style="
+            margin-bottom:25px;
+        "
+    >
+
+        <p class="eyebrow">
+            USUARIO
+        </p>
+
+        <h2>
+            {{ user_record.username }}
+        </h2>
+
+        <p>
+
+            {% if user_record.first_name or user_record.last_name %}
+
+                {{ user_record.first_name }}
+                {{ user_record.last_name }}
+
+            {% endif %}
+
+        </p>
+
+        <p>
+            <strong>Correo:</strong>
+            {{ user_record.email|default:"Sin correo" }}
+        </p>
+
+        <p>
+
+            <strong>Rol:</strong>
+
+            {% if user_record.is_superuser %}
+
+                Administrador
+
+            {% elif user_record.groups.all.0.name == "Operador" %}
+
+                Operador
+
+            {% elif user_record.groups.all.0.name == "Consulta" %}
+
+                Consulta
+
+            {% else %}
+
+                Usuario
+
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+    <!-- ======================================================
+         FORMULARIO
+         ====================================================== -->
+
+    <form
+        method="post"
+        novalidate
+    >
+
+        {% csrf_token %}
+
+
+        <!-- ==================================================
+             ERRORES GENERALES
+             ================================================== -->
+
+        {% if form.non_field_errors %}
+
+            <div
+                class="alert alert-danger"
+                role="alert"
+            >
+
+                {% for error in form.non_field_errors %}
+
+                    {{ error }}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ==================================================
+             ACCESO HABILITADO
+             ================================================== -->
+
+        <div class="form-group">
+
+            <label
+                for="{{ form.enabled.id_for_label }}"
+            >
+                {{ form.enabled.label }}
+            </label>
+
+            <div
+                style="
+                    margin-top:10px;
+                    display:flex;
+                    align-items:center;
+                    gap:10px;
+                "
+            >
+
+                {{ form.enabled }}
+
+                <span>
+                    Habilitar acceso al sistema
+                </span>
+
+            </div>
+
+
+            {% for error in form.enabled.errors %}
+
+                <div class="text-danger">
+                    {{ error }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ==================================================
+             RESTRICCIÓN HORARIA
+             ================================================== -->
+
+        <div
+            class="vault-card"
+            style="
+                margin-top:25px;
+                margin-bottom:25px;
+                border:1px solid rgba(255,255,255,.25);
+            "
+        >
+
+            <p class="eyebrow">
+                RESTRICCIÓN HORARIA
+            </p>
+
+
+            <h3
+                style="
+                    margin-top:5px;
+                    margin-bottom:10px;
+                "
+            >
+                Configuración del horario
+            </h3>
+
+
+            <p>
+                El Administrador puede decidir si el usuario
+                tendrá un horario específico o podrá acceder
+                en cualquier momento.
+            </p>
+
+
+            <!-- ==============================================
+                 SIN RESTRICCIÓN HORARIA
+                 ============================================== -->
+
+            <div
+                class="form-group"
+                style="
+                    margin-top:20px;
+                "
+            >
+
+                <label
+                    for="{{ form.unrestricted_hours.id_for_label }}"
+                >
+                    {{ form.unrestricted_hours.label }}
+                </label>
+
+
+                <div
+                    style="
+                        margin-top:10px;
+                        padding:15px;
+                        border:2px solid #ffffff;
+                        border-radius:8px;
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                        background:#050505;
+                    "
+                >
+
+                    {{ form.unrestricted_hours }}
+
+                    <span
+                        style="
+                            color:#ffffff !important;
+                            -webkit-text-fill-color:#ffffff !important;
+                            font-weight:700;
+                        "
+                    >
+                        Permitir acceso sin restricción de horario
+                    </span>
+
+                </div>
+
+
+                <small
+                    id="unrestricted-help"
+                    style="
+                        display:block;
+                        margin-top:10px;
+                        color:#ffffff;
+                    "
+                >
+                    Si esta opción está activada,
+                    el usuario podrá iniciar sesión a cualquier hora,
+                    siempre que su acceso esté habilitado.
+                </small>
+
+
+                {% for error in form.unrestricted_hours.errors %}
+
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- ==============================================
+                 HORARIO DEFINIDO POR ADMINISTRADOR
+                 ============================================== -->
+
+            <div
+                id="schedule-fields"
+                style="
+                    margin-top:25px;
+                "
+            >
+
+                <p
+                    style="
+                        color:#ffffff;
+                        font-weight:700;
+                        margin-bottom:15px;
+                    "
+                >
+                    Horario definido por el Administrador
+                </p>
+
+
+                <div
+                    style="
+                        display:grid;
+                        grid-template-columns:
+                            repeat(
+                                auto-fit,
+                                minmax(250px,1fr)
+                            );
+                        gap:20px;
+                    "
+                >
+
+                    <!-- ======================================
+                         HORA INICIO
+                         ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.access_start.id_for_label }}"
+                        >
+                            {{ form.access_start.label }}
+                        </label>
+
+
+                        {{ form.access_start }}
+
+
+                        {% for error in form.access_start.errors %}
+
+                            <div class="text-danger">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- ======================================
+                         HORA TÉRMINO
+                         ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.access_end.id_for_label }}"
+                        >
+                            {{ form.access_end.label }}
+                        </label>
+
+
+                        {{ form.access_end }}
+
+
+                        {% for error in form.access_end.errors %}
+
+                            <div class="text-danger">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             EXPLICACIÓN
+             ================================================== -->
+
+        <div
+            class="vault-card"
+            style="
+                margin-top:25px;
+                margin-bottom:25px;
+            "
+        >
+
+            <p class="eyebrow">
+                REGLA DE ACCESO
+            </p>
+
+
+            <p>
+                <strong>Acceso habilitado:</strong>
+                permite que el usuario pueda iniciar sesión.
+            </p>
+
+
+            <p>
+                <strong>Sin restricción horaria:</strong>
+                el usuario podrá ingresar a cualquier hora,
+                siempre que su acceso esté habilitado.
+            </p>
+
+
+            <p>
+                <strong>Con restricción horaria:</strong>
+                el usuario solo podrá ingresar dentro del
+                horario definido por el Administrador.
+            </p>
+
+
+            <p>
+                Por ejemplo:
+                <strong>08:00 - 18:00</strong>
+                permite el acceso dentro de ese horario.
+            </p>
+
+
+            <p>
+                <strong>Acceso suspendido:</strong>
+                el usuario no podrá ingresar aunque esté dentro
+                del horario permitido.
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             BOTONES
+             ================================================== -->
+
+        <div
+            style="
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap;
+                margin-top:25px;
+            "
+        >
+
+            <button
+                type="submit"
+                class="btn neon-btn"
+                style="
+                    color:#ffffff !important;
+                    text-shadow:0 0 8px rgba(255,255,255,.95);
+                    font-weight:700;
+                "
+            >
+                💾 Guardar configuración
+            </button>
+
+
+            <a
+                href="{% url 'admin_access' %}"
+                class="btn outline-btn"
+            >
+                ← Volver
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- ==========================================================
+     JAVASCRIPT
+     ========================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const unrestrictedCheckbox =
+            document.getElementById(
+                "{{ form.unrestricted_hours.id_for_label }}"
+            );
+
+        const startInput =
+            document.getElementById(
+                "{{ form.access_start.id_for_label }}"
+            );
+
+        const endInput =
+            document.getElementById(
+                "{{ form.access_end.id_for_label }}"
+            );
+
+        const scheduleFields =
+            document.getElementById(
+                "schedule-fields"
+            );
+
+
+        function updateScheduleState() {
+
+            if (!unrestrictedCheckbox) {
+                return;
+            }
+
+
+            if (unrestrictedCheckbox.checked) {
+
+                /*
+                 * IMPORTANTE:
+                 * NO usamos disabled aquí.
+                 *
+                 * Los campos deben seguir enviándose
+                 * mediante POST para que Django pueda
+                 * guardar correctamente el formulario.
+                 */
+
+                if (scheduleFields) {
+
+                    scheduleFields.style.opacity = "0.45";
+
+                }
+
+            } else {
+
+                if (scheduleFields) {
+
+                    scheduleFields.style.opacity = "1";
+
+                }
+
+            }
+
+        }
+
+
+        if (unrestrictedCheckbox) {
+
+            unrestrictedCheckbox.addEventListener(
+                "change",
+                updateScheduleState
+            );
+
+        }
+
+
+        updateScheduleState();
+
+    }
+
+);
+
+</script>
+
+
+{% endblock %}

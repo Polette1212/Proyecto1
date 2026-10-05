@@ -1,0 +1,1063 @@
+{% load static %}
+{% load vault_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        {% block title %}
+
+            GameVault | Space Gamer Turbo
+
+        {% endblock %}
+
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/bootstrap.min.css' %}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/gamevault.css' %}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+
+    <style>
+
+
+        /* =====================================================
+           MENÚ ADMINISTRATIVO LATERAL
+           ===================================================== */
+
+
+        .admin-menu-button {
+
+            width: 48px;
+            height: 48px;
+
+            border: 1px solid rgba(0, 255, 255, 0.55);
+
+            border-radius: 8px;
+
+            background: rgba(0, 0, 0, 0.55);
+
+            color: #00ffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .admin-menu-button:hover {
+
+            background: rgba(0, 255, 255, 0.12);
+
+            box-shadow:
+                0 0 10px rgba(0, 255, 255, 0.45);
+
+            transform: scale(1.05);
+
+        }
+
+
+
+        .admin-offcanvas {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #090b18 0%,
+                    #11152d 50%,
+                    #080910 100%
+                );
+
+            color: white;
+
+            border-left:
+                1px solid rgba(0, 255, 255, 0.35);
+
+            box-shadow:
+                -10px 0 35px rgba(0, 0, 0, 0.65);
+
+        }
+
+
+        .admin-offcanvas .offcanvas-header {
+
+            border-bottom:
+                1px solid rgba(0, 255, 255, 0.18);
+
+        }
+
+
+        .admin-offcanvas .offcanvas-title {
+
+            color: #00ffff;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .admin-menu-title {
+
+            font-size: 0.75rem;
+
+            color: #9ea8c7;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .admin-menu-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            margin-bottom: 7px;
+
+            border-radius: 8px;
+
+            color: #e8ecff;
+
+            text-decoration: none;
+
+            border: 1px solid transparent;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .admin-menu-link:hover {
+
+            color: #00ffff;
+
+            background:
+                rgba(0, 255, 255, 0.08);
+
+            border-color:
+                rgba(0, 255, 255, 0.25);
+
+            transform: translateX(3px);
+
+        }
+
+
+        .admin-menu-link.danger {
+
+            color: #ff6b8a;
+
+        }
+
+
+        .admin-menu-link.danger:hover {
+
+            color: #ff456d;
+
+            background:
+                rgba(255, 50, 90, 0.08);
+
+            border-color:
+                rgba(255, 50, 90, 0.25);
+
+        }
+
+
+        .admin-menu-link.back {
+
+            color: #b9c2dc;
+
+        }
+
+
+        .admin-menu-divider {
+
+            height: 1px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            margin: 15px 0;
+
+        }
+
+
+        .admin-user-info {
+
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+        }
+
+
+        .admin-user-name {
+
+            color: #ffffff;
+
+            font-weight: 700;
+
+        }
+
+
+        .admin-user-role {
+
+            color: #00ffff;
+
+            font-size: 0.85rem;
+
+        }
+
+
+
+        /* =====================================================
+           BOTÓN VOLVER
+           ===================================================== */
+
+
+        .back-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 13px;
+
+            border-radius: 7px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            color: #dce3ff;
+
+            text-decoration: none;
+
+            font-size: 0.9rem;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .back-button:hover {
+
+            color: #00ffff;
+
+            border-color:
+                rgba(0, 255, 255, 0.35);
+
+            background:
+                rgba(0, 255, 255, 0.06);
+
+        }
+
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 LOGO
+                 ================================================= -->
+
+
+            <a
+                class="navbar-brand neon-logo"
+                href="{% url 'presentacion' %}"
+            >
+
+                GAME<span>VAULT</span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 BOTÓN MÓVIL
+                 ================================================= -->
+
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainMenu"
+                aria-controls="mainMenu"
+                aria-expanded="false"
+                aria-label="Abrir menú"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+
+            <div
+                class="collapse navbar-collapse"
+                id="mainMenu"
+            >
+
+
+                <ul
+                    class="navbar-nav ms-auto align-items-lg-center gap-lg-2"
+                >
+
+
+                    <!-- =================================================
+                         INICIO
+                         ================================================= -->
+
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'presentacion' %}"
+                        >
+
+                            Inicio
+
+                        </a>
+
+                    </li>
+
+
+
+                    <!-- =================================================
+                         CATÁLOGO
+                         ================================================= -->
+
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'videojuegos' %}"
+                        >
+
+                            Catálogo
+
+                        </a>
+
+                    </li>
+
+
+
+                    {% if user.is_authenticated %}
+
+
+
+                        <!-- =================================================
+                             USUARIO NORMAL
+                             ================================================= -->
+
+
+                        {% if not user.is_superuser and not user|has_group:"Operador" and not user|has_group:"Consulta" %}
+
+
+                            <li class="nav-item">
+
+                                <a
+                                    class="nav-link"
+                                    href="{% url 'cart' %}"
+                                >
+
+                                    🛒 Carrito
+
+                                </a>
+
+                            </li>
+
+
+
+                            <li class="nav-item">
+
+                                <a
+                                    class="nav-link"
+                                    href="{% url 'order_history' %}"
+                                >
+
+                                    📦 Mis compras
+
+                                </a>
+
+                            </li>
+
+
+                        {% endif %}
+
+
+
+                        <!-- =================================================
+                             MENÚ ADMINISTRATIVO
+                             ================================================= -->
+
+
+                        {% if user.is_superuser or user|has_group:"Operador" or user|has_group:"Consulta" %}
+
+
+                            <li class="nav-item ms-lg-2">
+
+
+                                <button
+                                    class="admin-menu-button"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#adminMenu"
+                                    aria-controls="adminMenu"
+                                    aria-label="Abrir menú administrativo"
+                                >
+
+                                    ☰
+
+                                </button>
+
+
+                            </li>
+
+
+                        {% endif %}
+
+
+
+                        <!-- =================================================
+                             USUARIO NORMAL
+                             ================================================= -->
+
+
+                        {% if not user.is_superuser and not user|has_group:"Operador" and not user|has_group:"Consulta" %}
+
+
+                            <li class="nav-item">
+
+
+                                <span class="nav-link text-info">
+
+                                    👤 {{ user.username }}
+
+                                </span>
+
+
+                            </li>
+
+
+
+                            <li class="nav-item">
+
+
+                                <a
+                                    href="{% url 'logout_user' %}"
+                                    class="nav-link text-danger"
+                                >
+
+                                    Cerrar sesión
+
+                                </a>
+
+
+                            </li>
+
+
+                        {% endif %}
+
+
+
+                    {% else %}
+
+
+
+                        <!-- =================================================
+                             VISITANTE
+                             ================================================= -->
+
+
+                        <li class="nav-item">
+
+
+                            <a
+                                class="nav-link"
+                                href="{% url 'cart' %}"
+                            >
+
+                                🛒 Carrito
+
+                            </a>
+
+
+                        </li>
+
+
+
+                        <li class="nav-item">
+
+
+                            <a
+                                class="nav-link btn btn-outline-primary ms-lg-2"
+                                href="{% url 'login' %}"
+                            >
+
+                                Iniciar sesión
+
+                            </a>
+
+
+                        </li>
+
+
+
+                        <li class="nav-item">
+
+
+                            <a
+                                class="nav-link btn btn-primary ms-lg-2"
+                                href="{% url 'register' %}"
+                            >
+
+                                Registrarse
+
+                            </a>
+
+
+                        </li>
+
+
+
+                    {% endif %}
+
+
+                </ul>
+
+
+            </div>
+
+
+        </div>
+
+
+    </nav>
+
+
+</header>
+
+
+
+
+<!-- =============================================================
+     MENÚ LATERAL ADMINISTRATIVO
+     ============================================================= -->
+
+
+{% if user.is_authenticated %}
+
+
+    {% if user.is_superuser or user|has_group:"Operador" or user|has_group:"Consulta" %}
+
+
+
+        <div
+            class="offcanvas offcanvas-end admin-offcanvas"
+            tabindex="-1"
+            id="adminMenu"
+            aria-labelledby="adminMenuLabel"
+        >
+
+
+
+            <!-- =================================================
+                 CABECERA
+                 ================================================= -->
+
+
+            <div class="offcanvas-header">
+
+
+                <div>
+
+
+                    <div class="admin-menu-title">
+
+                        GAMEVAULT // CONTROL
+
+                    </div>
+
+
+
+                    <h5
+                        class="offcanvas-title"
+                        id="adminMenuLabel"
+                    >
+
+                        Menú administrativo
+
+                    </h5>
+
+
+                </div>
+
+
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Cerrar"
+                >
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CONTENIDO
+                 ================================================= -->
+
+
+            <div class="offcanvas-body">
+
+
+
+                <!-- INFORMACIÓN DEL USUARIO -->
+
+
+                <div class="admin-user-info">
+
+
+                    <div class="admin-user-name">
+
+                        👤 {{ user.username }}
+
+                    </div>
+
+
+
+                    <div class="admin-user-role">
+
+
+                        {% if user.is_superuser %}
+
+                            Administrador
+
+                        {% elif user|has_group:"Operador" %}
+
+                            Operador
+
+                        {% elif user|has_group:"Consulta" %}
+
+                            Consulta
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PANEL
+                     ================================================= -->
+
+
+                <a
+                    href="{% url 'vault_dashboard' %}"
+                    class="admin-menu-link"
+                >
+
+                    🎛️
+
+                    <span>
+                        Panel
+                    </span>
+
+                </a>
+
+
+
+                <!-- =================================================
+                     JUEGOS
+                     ================================================= -->
+
+
+                <a
+                    href="{% url 'vault_list' 'games' %}"
+                    class="admin-menu-link"
+                >
+
+                    🕹️
+
+                    <span>
+                        Juegos
+                    </span>
+
+                </a>
+
+
+
+                <!-- =================================================
+                     GAMERS
+                     ================================================= -->
+
+
+                <a
+                    href="{% url 'vault_list' 'gamers' %}"
+                    class="admin-menu-link"
+                >
+
+                    👾
+
+                    <span>
+                        Gamers
+                    </span>
+
+                </a>
+
+
+
+                <!-- =================================================
+                     BIBLIOTECA
+                     ================================================= -->
+
+
+                <a
+                    href="{% url 'vault_list' 'library' %}"
+                    class="admin-menu-link"
+                >
+
+                    📚
+
+                    <span>
+                        Biblioteca
+                    </span>
+
+                </a>
+
+
+
+                <!-- =================================================
+                     FUNCIONES EXCLUSIVAS DEL ADMINISTRADOR
+                     ================================================= -->
+
+
+                {% if user.is_superuser %}
+
+
+                    <div class="admin-menu-divider"></div>
+
+
+
+                    <div class="admin-menu-title">
+
+                        ADMINISTRACIÓN
+
+                    </div>
+
+
+
+                    <!-- USUARIOS -->
+
+
+                    <a
+                        href="{% url 'admin_users' %}"
+                        class="admin-menu-link"
+                    >
+
+                        👥
+
+                        <span>
+                            Administrar usuarios
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- CREAR USUARIO -->
+
+
+                    <a
+                        href="{% url 'admin_user_create' %}"
+                        class="admin-menu-link"
+                    >
+
+                        ➕
+
+                        <span>
+                            Crear usuario
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- ROLES -->
+
+
+                    <a
+                        href="{% url 'admin_users' %}"
+                        class="admin-menu-link"
+                    >
+
+                        🛡️
+
+                        <span>
+                            Administrar roles
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- COMPRAS -->
+
+
+                    <a
+                        href="{% url 'admin_orders' %}"
+                        class="admin-menu-link"
+                    >
+
+                        🛒
+
+                        <span>
+                            Historial de compras
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- NUEVA COMPRA / CATÁLOGO -->
+
+
+                    <a
+                        href="{% url 'videojuegos' %}"
+                        class="admin-menu-link"
+                    >
+
+                        🎮
+
+                        <span>
+                            Ir al catálogo
+                        </span>
+
+                    </a>
+
+
+                {% endif %}
+
+
+
+                <!-- =================================================
+                     VOLVER
+                     ================================================= -->
+
+
+                <div class="admin-menu-divider"></div>
+
+
+
+                <a
+                    href="{% url 'videojuegos' %}"
+                    class="admin-menu-link back"
+                >
+
+                    ↩️
+
+                    <span>
+                        Volver al catálogo
+                    </span>
+
+                </a>
+
+
+
+                <!-- =================================================
+                     CERRAR SESIÓN
+                     ================================================= -->
+
+
+                <a
+                    href="{% url 'logout_user' %}"
+                    class="admin-menu-link danger"
+                >
+
+                    🚪
+
+                    <span>
+                        Cerrar sesión
+                    </span>
+
+                </a>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+{% endif %}
+
+
+
+
+<!-- =============================================================
+     CONTENIDO PRINCIPAL
+     ============================================================= -->
+
+
+<main class="container my-4">
+
+
+
+    <!-- MENSAJES -->
+
+
+    {% if messages %}
+
+
+        {% for message in messages %}
+
+
+            <div
+                class="alert alert-{{ message.tags|default:'info' }}"
+                role="alert"
+            >
+
+                {{ message }}
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% endif %}
+
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+</main>
+
+
+
+
+<!-- =============================================================
+     FOOTER
+     ============================================================= -->
+
+
+<footer class="bg-dark text-light text-center py-3 mt-auto">
+
+
+    <p class="mb-0">
+
+        🎮 SPACE GAMER TURBO |
+
+        Proyecto Django 2026 🚀
+
+    </p>
+
+
+</footer>
+
+
+
+
+<!-- =============================================================
+     BOOTSTRAP JAVASCRIPT
+     ============================================================= -->
+
+
+<script
+    src="{% static 'js/bootstrap.bundle.min.js' %}"
+></script>
+
+
+
+</body>
+
+</html>

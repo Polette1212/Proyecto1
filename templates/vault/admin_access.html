@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Administración de accesos | GameVault
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // SEGURIDAD
+        </p>
+
+        <h1>
+            Control de accesos
+        </h1>
+
+        <p>
+            Administra los horarios y el estado de acceso
+            de los usuarios con perfil Operador y Consulta.
+        </p>
+
+    </div>
+
+
+    <div>
+
+        <a
+            href="{% url 'vault_dashboard' %}"
+            class="btn outline-btn"
+        >
+            ← Volver al panel
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="vault-card">
+
+    <div class="page-heading">
+
+        <div>
+
+            <h2>
+                Usuarios con control de acceso
+            </h2>
+
+            <p>
+                El Administrador puede habilitar, suspender
+                y definir el horario permitido para cada usuario.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if users %}
+
+        <div style="overflow-x:auto;">
+
+            <table class="vault-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Usuario
+                        </th>
+
+                        <th>
+                            Nombre
+                        </th>
+
+                        <th>
+                            Rol
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Acceso permitido
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for user in users %}
+
+                        <tr>
+
+                            <!-- USUARIO -->
+
+                            <td>
+
+                                <strong>
+                                    {{ user.username }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- NOMBRE -->
+
+                            <td>
+
+                                {% if user.first_name or user.last_name %}
+
+                                    {{ user.first_name }}
+                                    {{ user.last_name }}
+
+                                {% else %}
+
+                                    <span>
+                                        Sin nombre
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ROL -->
+
+                            <td>
+
+                                {% if user.is_superuser %}
+
+                                    Administrador
+
+                                {% elif user.groups.all.0.name == "Operador" %}
+
+                                    Operador
+
+                                {% elif user.groups.all.0.name == "Consulta" %}
+
+                                    Consulta
+
+                                {% else %}
+
+                                    Usuario
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                {% if user.access_control.enabled %}
+
+                                    <span>
+                                        🟢 Habilitado
+                                    </span>
+
+                                {% else %}
+
+                                    <span>
+                                        🔴 Suspendido
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- HORARIO / RESTRICCIÓN -->
+
+                            <td>
+
+                                {% if user.access_control.unrestricted_hours %}
+
+                                    <strong
+                                        style="
+                                            color:#ffffff;
+                                            font-weight:700;
+                                        "
+                                    >
+                                        Sin restricción
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+                                        Acceso durante todo el día
+                                    </small>
+
+                                {% else %}
+
+                                    <strong
+                                        style="
+                                            color:#ffffff;
+                                            font-weight:700;
+                                        "
+                                    >
+                                        {{ user.access_control.access_start|time:"H:i" }}
+                                        -
+                                        {{ user.access_control.access_end|time:"H:i" }}
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+                                        Horario restringido
+                                    </small>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        gap:8px;
+                                        flex-wrap:wrap;
+                                        align-items:center;
+                                    "
+                                >
+
+                                    <a
+                                        href="{% url 'admin_access_edit' user.id %}"
+                                        class="btn neon-btn"
+                                        style="
+                                            color:#ffffff !important;
+                                            text-shadow:0 0 8px rgba(255,255,255,.95);
+                                            font-weight:700;
+                                        "
+                                    >
+                                        🕐 Editar acceso
+                                    </a>
+
+
+                                    {% if user.access_control.enabled %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'admin_access_toggle' user.id %}"
+                                            style="display:inline;"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="btn danger-btn"
+                                            >
+                                                🔴 Suspender
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'admin_access_toggle' user.id %}"
+                                            style="display:inline;"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="btn neon-btn"
+                                            >
+                                                🟢 Habilitar
+                                            </button>
+
+                                        </form>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="vault-card">
+
+            <h3>
+                No existen usuarios con control de acceso.
+            </h3>
+
+            <p>
+                Los usuarios Operador y Consulta aparecerán
+                automáticamente aquí.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<section
+    class="vault-card"
+    style="
+        margin-top:25px;
+    "
+>
+
+    <p class="eyebrow">
+        INFORMACIÓN
+    </p>
+
+    <h2>
+        ¿Cómo funciona el control?
+    </h2>
+
+
+    <ul>
+
+        <li>
+
+            <strong>
+                Habilitado:
+            </strong>
+
+            el usuario puede iniciar sesión
+            mientras su acceso esté habilitado.
+
+        </li>
+
+
+        <li>
+
+            <strong>
+                Suspendido:
+            </strong>
+
+            el usuario no puede acceder al sistema.
+
+        </li>
+
+
+        <li>
+
+            <strong>
+                Sin restricción:
+            </strong>
+
+            el usuario puede acceder durante todo el día,
+            mientras su cuenta permanezca habilitada.
+
+        </li>
+
+
+        <li>
+
+            <strong>
+                Horario restringido:
+            </strong>
+
+            el usuario solamente puede acceder
+            dentro del rango establecido.
+
+        </li>
+
+
+        <li>
+
+            <strong>
+                Administrador:
+            </strong>
+
+            no está sujeto a estas restricciones.
+
+        </li>
+
+    </ul>
+
+</section>
+
+{% endblock %}

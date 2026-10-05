@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mis compras | GameVault
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading">
+
+    <div>
+
+        <p class="eyebrow">
+            GAMEVAULT // HISTORIAL
+        </p>
+
+        <h1>
+            📦 Mis compras
+        </h1>
+
+        <p>
+            Consulta tus pedidos y productos comprados.
+        </p>
+
+    </div>
+
+</section>
+
+
+{% if orders %}
+
+    {% for order in orders %}
+
+        <section class="vault-card">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+
+                    <h2>
+                        Pedido #{{ order.id }}
+                    </h2>
+
+                    <p>
+                        <strong>Fecha:</strong>
+                        {{ order.created_at|date:"d/m/Y H:i" }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <p>
+                        <strong>Estado:</strong>
+                        {{ order.get_status_display }}
+                    </p>
+
+                    <p>
+                        <strong>Método de pago:</strong>
+                        {{ order.get_payment_method_display }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Videojuego
+                            </th>
+
+                            <th>
+                                Cantidad
+                            </th>
+
+                            <th>
+                                Precio unitario
+                            </th>
+
+                            <th>
+                                Subtotal
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for item in order.items.all %}
+
+                            <tr>
+
+                                <td>
+
+                                    <strong>
+                                        {{ item.game.title }}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+                                    {{ item.quantity }}
+                                </td>
+
+
+                                <td>
+                                    ${{ item.unit_price|floatformat:0 }}
+                                </td>
+
+
+                                <td>
+                                    ${{ item.subtotal|floatformat:0 }}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="cart-actions">
+
+                <strong>
+                    TOTAL: ${{ order.total|floatformat:0 }}
+                </strong>
+
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <a
+                        href="{% url 'order_success' order.id %}"
+                        class="outline-btn"
+                    >
+                        👁️ Ver detalle
+                    </a>
+
+
+                    <a
+                        href="{% url 'order_receipt_pdf' order.id %}"
+                        class="neon-btn"
+                        target="_blank"
+                    >
+                        📄 Comprobante PDF
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    {% endfor %}
+
+
+{% else %}
+
+    <section class="vault-card text-center">
+
+        <h2>
+            📦 No tienes compras todavía
+        </h2>
+
+        <p>
+            Cuando realices una compra, aparecerá aquí.
+        </p>
+
+
+        <a
+            href="{% url 'videojuegos' %}"
+            class="neon-btn"
+        >
+            🎮 Ir al catálogo
+        </a>
+
+    </section>
+
+{% endif %}
+
+{% endblock %}

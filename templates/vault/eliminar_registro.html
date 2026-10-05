@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="form-wrap vault-card">
+
+    <p class="eyebrow">
+        ZONA CRÍTICA
+    </p>
+
+    <h1>
+        ¿Eliminar registro?
+    </h1>
+
+    <p>
+        Vas a eliminar
+        <strong>{{ record }}</strong>.
+        Esta acción no se puede deshacer.
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button
+            class="btn danger-btn"
+        >
+            SÍ, ELIMINAR
+        </button>
+
+        <a
+            class="btn outline-btn"
+            href="{% url 'vault_list' module %}"
+        >
+            CANCELAR
+        </a>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "nombre": "Super Porfe Alex2",
+        "genero": "Plataformas",
+        "plataforma": "Nintendo Switch",
+        "año": 2023,
+        "puntuacion": 4.9,
+        "descripcion": "🌟 ¡El Reino Flor cobra vida! Acompaña a Mario y sus amigos en una aventura llena de mundos sorprendentes, poderes increíbles y transformaciones que cambiarán las reglas del juego.",
+        "precio": 39990,
+        "imagen": "img_juegos/mario_bross.jpeg"
+        
+    },
+    {
+        "id": 2,
+        "nombre": "Street Fighter 6",
+        "genero": "Peleas",
+        "plataforma": "PC / PlayStation / Xbox",
+        "año": 2023,
+        "puntuacion": 4.9,
+        "descripcion": "🥊 ¡Prepárate para el combate! Domina técnicas, crea tu propio estilo de lucha y enfréntate a guerreros de todo el mundo en batallas llenas de energía.",
+        "precio": 49990,
+        
+        "imagen": "img_juegos/street_figther.avif"
+    },
+    {
+        "id": 3,
+        "nombre": "Mortal Kombat 1",
+        "genero": "Peleas",
+        "plataforma": "PC / PlayStation / Xbox / Switch",
+        "año": 2023,
+        "puntuacion": 4.8,
+        "descripcion": "⚡ Un nuevo universo, nuevos combates y una nueva era. Entra al torneo, domina las habilidades de tus luchadores favoritos y demuestra que tienes lo necesario para llegar a la cima.",
+        "precio": 49990,
+        "imagen": "img_juegos/mortal_combat.jpeg"
+    },
+    {
+        "id": 4,
+        "nombre": "Donkey Kong Country: Tropical Freeze",
+        "genero": "Plataformas",
+        "plataforma": "Nintendo Switch",
+        "año": 2018,
+        "puntuacion": 4.8,
+        "descripcion": "🦍 ¡La jungla está congelada! Únete a Donkey Kong y su equipo en una aventura explosiva llena de obstáculos, enemigos, secretos y niveles que pondrán a prueba tus reflejos.",
+        "precio": 29990,
+        "imagen": "img_juegos/donkey_kong.jpeg"
+    },
+    {
+        "id": 5,
+        "nombre": "Pac-Man Championship Edition 2",
+        "genero": "Arcade",
+        "plataforma": "PC / PlayStation / Xbox / Switch",
+        "año": 2016,
+        "puntuacion": 4.8,
+        "descripcion": "🟡 ¡El clásico vuelve a toda velocidad! Recorre laberintos de neón, consigue combos gigantescos y escapa de los fantasmas mientras intentas superar tu propio récord.",
+        "precio": 49990,
+        "imagen": "img_juegos/pacman_imagen.jpg"
+    },
+    {
+        "id": 6,
+        "nombre": "Dragon Ball FighterZ",
+        "genero": "Peleas",
+        "plataforma": "PC / PlayStation / Xbox / Switch",
+        "año": 2018,
+        "puntuacion": 4.9,
+        "descripcion": "🔥 ¡Desata tu poder! Forma tu equipo de guerreros, ejecuta ataques espectaculares y vive combates explosivos inspirados en el universo de Dragon Ball.",
+        "precio": 49990,
+        "imagen": "img_juegos/Dragon_ballz_1.jpg"
+    },
+    {
+        "id": 7,
+        "nombre": "The Legend of Zelda: Tears of the Kingdom",
+        "genero": "Aventura",
+        "plataforma": "Nintendo Switch",
+        "año": 2023,
+        "puntuacion": 4.9,
+        "descripcion": "🗡️ Explora Hyrule desde las alturas hasta las profundidades. Resuelve misterios, descubre nuevos poderes y vive una aventura llena de secretos.",
+        "precio": 49990,
+        "imagen": "img_juegos/zelda_imagen.jpg"
+    },
+    {
+        "id": 8,
+        "nombre": "God of War Ragnarök",
+        "genero": "Acción / Aventura",
+        "plataforma": "PlayStation / PC",
+        "año": 2022,
+        "puntuacion": 4.9,
+        "descripcion": "⚔️ Kratos y Atreus se enfrentan a un destino marcado por el Ragnarök en una aventura épica llena de combates, mitología y descubrimientos.",
+        "precio": 49990,
+        "imagen": "img_juegos/images_god.jpeg"
+    },
+    {
+        "id": 9,
+        "nombre": "Minecraft",
+        "genero": "Sandbox",
+        "plataforma": "PC / PlayStation / Xbox / Switch",
+        "año": 2011,
+        "puntuacion": 4.8,
+        "descripcion": "⛏️ Construye, explora y sobrevive en un mundo prácticamente infinito donde tu imaginación es el límite.",
+        "precio": 49990,
+        "imagen": "img_juegos/micraft_imagen.jpg"
+    },
+    {
+        "id": 10,
+        "nombre": "Resident Evil 4",
+        "genero": "Survival Horror",
+        "plataforma": "PC / PlayStation / Xbox",
+        "año": 2023,
+        "puntuacion": 4.9,
+        "descripcion": "🧟 Acompaña a Leon Kennedy en una peligrosa misión llena de misterios, enemigos y momentos de tensión.",
+        "precio": 49990,
+        "imagen": "img_juegos/resident_evil.jpeg"
+    }
+]

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Videojuegos | Space Gamer Turbo{% endblock %}
+
+{% block content %}
+
+<section class="zona-videojuegos">
+
+    <div class="titulo-videojuegos">
+
+        <h1>⚡ VIDEOJUEGOS ⚡</h1>
+
+        <p>
+            Explora nuestra colección gamer
+        </p>
+
+    </div>
+
+
+    <div class="lista-videojuegos">
+
+        {% for juego in videojuegos %}
+
+        <article class="juego">
+
+            <!-- CARÁTULA -->
+            <div class="juego-imagen">
+
+                {% if juego.cover %}
+
+                    <img
+                        src="{{ juego.cover.url }}"
+                        alt="{{ juego.title }}"
+                    >
+
+                {% else %}
+
+                    <div class="sin-imagen">
+                        SIN PORTADA
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+            <div class="juego-info">
+
+                <h2>
+                    {{ juego.title }}
+                </h2>
+
+
+                <div class="descripcion-juego">
+
+                    <p>
+                        {{ juego.synopsis }}
+                    </p>
+
+
+                    <div class="datos-juego">
+
+                        <span>
+                            🎯 {{ juego.genre }}
+                        </span>
+
+                        <span>
+                            🎮 {{ juego.platform }}
+                        </span>
+
+                        <span>
+                            📅 {{ juego.launch_year }}
+                        </span>
+
+                        <span>
+                            📦 Stock: {{ juego.stock }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRECIO -->
+                <div class="precio-juego">
+
+                    <span>
+                        PRECIO
+                    </span>
+
+                    <strong>
+                        ${{ juego.price|floatformat:0 }}
+                    </strong>
+
+                </div>
+
+
+                <!-- ACCIONES -->
+                <div class="boton-detalle-contenedor">
+
+                    <!-- VER DETALLE -->
+                    <a
+                        href="{% url 'detalle' juego.id %}"
+                        class="boton-detalle"
+                    >
+                        🎮 VER DETALLE
+                    </a>
+
+
+                    <!-- AGREGAR AL CARRITO -->
+                    {% if juego.stock > 0 %}
+
+                        <form
+                            method="post"
+                            action="{% url 'cart_add' juego.id %}"
+                            class="form-carrito"
+                        >
+
+                            {% csrf_token %}
+
+                            <div class="cantidad-carrito">
+
+                                <label for="cantidad-{{ juego.id }}">
+                                    CANTIDAD
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="cantidad-{{ juego.id }}"
+                                    name="quantity"
+                                    value="1"
+                                    min="1"
+                                    max="{{ juego.stock }}"
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="boton-carrito"
+                            >
+                                🛒 AGREGAR AL CARRITO
+                            </button>
+
+                        </form>
+
+                    {% else %}
+
+                        <button
+                            type="button"
+                            class="boton-carrito agotado"
+                            disabled
+                        >
+                            ❌ SIN STOCK
+                        </button>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        {% empty %}
+
+        <p class="sin-juegos">
+            No hay videojuegos disponibles.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

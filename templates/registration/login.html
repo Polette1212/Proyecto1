@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Ingresar | GameVault{% endblock %}
+
+{% block content %}
+
+<section class="login-shell">
+
+    <div class="vault-card login-card">
+
+        <p class="eyebrow">ACCESO SEGURO</p>
+
+        <h1>
+            Entra a tu <span>GameVault</span>
+        </h1>
+
+        <p>
+            Gestiona tu colección desde un único panel.
+        </p>
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Usuario o contraseña incorrectos.
+            </div>
+        {% endif %}
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_username" class="form-label">
+                    Usuario
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    id="id_username"
+                    class="form-control"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password" class="form-label">
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    id="id_password"
+                    class="form-control"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button
+                class="btn neon-btn w-100 mt-3"
+                type="submit"
+            >
+                INICIAR SESIÓN
+            </button>
+
+            <input
+                type="hidden"
+                name="next"
+                value="{{ next }}"
+            >
+
+        </form>
+
+        <div class="text-center mt-4">
+
+            <p>
+                ¿No tienes una cuenta?
+            </p>
+
+            <a
+                href="{% url 'register' %}"
+                class="btn outline-btn"
+            >
+                CREAR CUENTA
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

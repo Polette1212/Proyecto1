@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Noticias | Space Gamer Turbo{% endblock %}
+
+{% block content %}
+
+<section class="noticias">
+
+    <h1>📰 NOTICIAS GAMER</h1>
+
+    <p>
+        Las últimas novedades del mundo de los videojuegos.
+    </p>
+
+    <div class="noticias-contenedor">
+
+        {% for noticia in noticias %}
+
+        <article class="noticia">
+
+            <img src="{% static 'img_juegos/' %}{{ noticia.imagen }}"
+                 alt="{{ noticia.titulo }}">
+
+            <div class="noticia-contenido">
+
+                <span class="categoria">
+                    {{ noticia.categoria }}
+                </span>
+
+                <h2>
+                    {{ noticia.titulo }}
+                </h2>
+
+                <p>
+                    {{ noticia.descripcion }}
+                </p>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
