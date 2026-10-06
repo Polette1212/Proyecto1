@@ -22,6 +22,9 @@ staticfiles/
 # Archivos subidos por usuarios
 media/
 
+# Respaldo local de datos
+data_backup.json
+
 # Configuración de IDE
 .vscode/
 .idea/
