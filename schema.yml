@@ -1,0 +1,1073 @@
+openapi: 3.0.3
+info:
+  title: GameVault API
+  version: 1.0.0
+  description: API REST para la gestión del sistema GameVault
+paths:
+  /api/gamers/:
+    get:
+      operationId: api_gamers_list
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GamerProfile'
+          description: ''
+    post:
+      operationId: api_gamers_create
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GamerProfile'
+          description: ''
+  /api/gamers/{id}/:
+    get:
+      operationId: api_gamers_retrieve
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este perfil gamer.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GamerProfile'
+          description: ''
+    put:
+      operationId: api_gamers_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este perfil gamer.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GamerProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GamerProfile'
+          description: ''
+    patch:
+      operationId: api_gamers_partial_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este perfil gamer.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGamerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGamerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGamerProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GamerProfile'
+          description: ''
+    delete:
+      operationId: api_gamers_destroy
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este perfil gamer.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/games/:
+    get:
+      operationId: api_games_list
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+          description: ''
+    post:
+      operationId: api_games_create
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Game'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Game'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+  /api/games/{id}/:
+    get:
+      operationId: api_games_retrieve
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este videojuego.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+    put:
+      operationId: api_games_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este videojuego.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Game'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Game'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+    patch:
+      operationId: api_games_partial_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este videojuego.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGame'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGame'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGame'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+    delete:
+      operationId: api_games_destroy
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este videojuego.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/orders/:
+    get:
+      operationId: api_orders_list
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+          description: ''
+    post:
+      operationId: api_orders_create
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /api/orders/{id}/:
+    get:
+      operationId: api_orders_retrieve
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este pedido.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    put:
+      operationId: api_orders_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este pedido.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    patch:
+      operationId: api_orders_partial_update
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este pedido.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    delete:
+      operationId: api_orders_destroy
+      description: |-
+        Permisos según el rol de GameVault:
+
+        Administrador:
+            GET, POST, PUT, PATCH, DELETE
+
+        Operador:
+            GET, POST, PUT, PATCH
+
+        Consulta:
+            GET
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este pedido.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    CustomerTypeEnum:
+      enum:
+      - registrado
+      - visitante
+      type: string
+      description: |-
+        * `registrado` - Cliente registrado
+        * `visitante` - Visitante
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Título
+          maxLength: 120
+        genre:
+          type: string
+          title: Género
+          maxLength: 60
+        platform:
+          type: string
+          title: Plataforma
+          maxLength: 60
+        launch_year:
+          type: integer
+          maximum: 4294967295
+          minimum: 0
+          format: int64
+          title: Año de lanzamiento
+        synopsis:
+          type: string
+          title: Sinopsis
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+          title: Precio
+        stock:
+          type: integer
+          maximum: 4294967295
+          minimum: 0
+          format: int64
+        cover:
+          type: string
+          format: uri
+          nullable: true
+          title: Portada
+        technical_sheet:
+          type: string
+          format: uri
+          nullable: true
+          title: Ficha técnica
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - genre
+      - id
+      - launch_year
+      - platform
+      - synopsis
+      - title
+    GamerProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        nickname:
+          type: string
+          maxLength: 40
+        favorite_genre:
+          type: string
+          maxLength: 60
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - id
+      - nickname
+      - username
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          nullable: true
+        customer_name:
+          type: string
+          title: Nombre completo
+          maxLength: 120
+        customer_rut:
+          type: string
+          title: RUT
+          maxLength: 20
+        customer_email:
+          type: string
+          format: email
+          title: Correo electrónico
+          maxLength: 150
+        customer_phone:
+          type: string
+          title: Teléfono
+          maxLength: 30
+        shipping_address:
+          type: string
+          title: Dirección de despacho
+          maxLength: 250
+        customer_type:
+          allOf:
+          - $ref: '#/components/schemas/CustomerTypeEnum'
+          title: Tipo de cliente
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          title: Estado
+        payment_method:
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodEnum'
+          title: Método de pago
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+          title: Descuento
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          readOnly: true
+      required:
+      - created_at
+      - discount
+      - id
+      - items
+      - payment_method
+      - subtotal
+      - total
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        game:
+          type: integer
+        game_title:
+          type: string
+          readOnly: true
+        quantity:
+          type: integer
+          maximum: 4294967295
+          minimum: 0
+          format: int64
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+          readOnly: true
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+      required:
+      - game
+      - game_title
+      - id
+      - quantity
+      - subtotal
+      - unit_price
+    PatchedGame:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Título
+          maxLength: 120
+        genre:
+          type: string
+          title: Género
+          maxLength: 60
+        platform:
+          type: string
+          title: Plataforma
+          maxLength: 60
+        launch_year:
+          type: integer
+          maximum: 4294967295
+          minimum: 0
+          format: int64
+          title: Año de lanzamiento
+        synopsis:
+          type: string
+          title: Sinopsis
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,0})?$
+          title: Precio
+        stock:
+          type: integer
+          maximum: 4294967295
+          minimum: 0
+          format: int64
+        cover:
+          type: string
+          format: uri
+          nullable: true
+          title: Portada
+        technical_sheet:
+          type: string
+          format: uri
+          nullable: true
+          title: Ficha técnica
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedGamerProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        nickname:
+          type: string
+          maxLength: 40
+        favorite_genre:
+          type: string
+          maxLength: 60
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+    PatchedOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          nullable: true
+        customer_name:
+          type: string
+          title: Nombre completo
+          maxLength: 120
+        customer_rut:
+          type: string
+          title: RUT
+          maxLength: 20
+        customer_email:
+          type: string
+          format: email
+          title: Correo electrónico
+          maxLength: 150
+        customer_phone:
+          type: string
+          title: Teléfono
+          maxLength: 30
+        shipping_address:
+          type: string
+          title: Dirección de despacho
+          maxLength: 250
+        customer_type:
+          allOf:
+          - $ref: '#/components/schemas/CustomerTypeEnum'
+          title: Tipo de cliente
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          title: Estado
+        payment_method:
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodEnum'
+          title: Método de pago
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+        discount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+          title: Descuento
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          readOnly: true
+    PaymentMethodEnum:
+      enum:
+      - tarjeta
+      - webpay
+      type: string
+      description: |-
+        * `tarjeta` - Tarjeta de crédito o débito
+        * `webpay` - Webpay
+    StatusEnum:
+      enum:
+      - pendiente
+      - pagada
+      - cancelada
+      type: string
+      description: |-
+        * `pendiente` - Pendiente
+        * `pagada` - Pagada
+        * `cancelada` - Cancelada
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
